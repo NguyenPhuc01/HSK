@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes, useParams } from 'react-router-
 import { AudioProvider } from './context/AudioContext'
 import { SidebarProvider } from './context/SidebarContext'
 import Layout from './components/Layout'
+import PwaInstallPrompt from './components/PwaInstallPrompt'
 import HomePage from './pages/HomePage'
 import ReaderPage from './pages/ReaderPage'
 import AudioMapAdminPage from './pages/AudioMapAdminPage'
@@ -23,6 +24,7 @@ export default function App() {
               <Route path="/lesson/:id" element={<LessonRedirect />} />
             </Route>
           </Routes>
+          <PwaInstallPrompt />
         </BrowserRouter>
       </SidebarProvider>
     </AudioProvider>

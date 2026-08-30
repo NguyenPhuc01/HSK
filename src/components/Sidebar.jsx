@@ -38,9 +38,11 @@ export default function Sidebar({ onNavigate }) {
       <div className="border-b border-slate-200 px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-teal-500 to-teal-700 text-lg font-bold text-white shadow-md">
-              中
-            </div>
+            <img
+              src="/favicon.svg"
+              alt=""
+              className="h-10 w-10 rounded-xl shadow-md"
+            />
             <div>
               <h1 className="text-sm font-bold text-slate-900">HSK 1 Reader</h1>
               <p className="text-xs text-slate-500">{book.shortTitle} · {totalPages} trang</p>

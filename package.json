@@ -11,7 +11,9 @@
     "download-textbook": "node scripts/download-textbook.mjs",
     "download-workbook": "node scripts/download-workbook.mjs",
     "download-workbook-audio": "node scripts/download-workbook-audio.mjs",
-    "download-all": "npm run download-textbook && npm run download-audio && npm run download-workbook && npm run download-workbook-audio"
+    "download-all": "npm run download-textbook && npm run download-audio && npm run download-workbook && npm run download-workbook-audio",
+    "generate-icons": "node scripts/generate-pwa-icons.mjs",
+    "prebuild": "node scripts/generate-pwa-icons.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",
@@ -26,6 +28,7 @@
     "@vitejs/plugin-react": "^5.0.2",
     "tailwindcss": "^4.1.12",
     "tesseract.js": "^7.0.0",
-    "vite": "^7.1.3"
+    "vite": "^7.1.3",
+    "vite-plugin-pwa": "^1.3.0"
   }
 }
