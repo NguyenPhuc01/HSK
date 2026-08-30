@@ -5,6 +5,7 @@ import AudioSidebar from '../components/AudioSidebar'
 import MobileAudioPanel from '../components/MobileAudioPanel'
 import MobileAudioTrackStrip from '../components/MobileAudioTrackStrip'
 import StopAudioOnPageChange from '../components/StopAudioOnPageChange'
+import { useAudio } from '../context/AudioContext'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
 import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
 import { getBook, isValidBookId } from '../data/books'
@@ -12,10 +13,13 @@ import { saveReadingPage } from '../hooks/useReadingProgress'
 
 function ReaderLayout({ bookId, pageNum }) {
   const book = getBook(bookId)
+  const { stopTrack } = useAudio()
 
   useEffect(() => {
     saveReadingPage(bookId, pageNum)
   }, [bookId, pageNum])
+
+  useEffect(() => () => stopTrack(), [stopTrack])
 
   const audioTracks = getAudioTracksForPage(bookId, pageNum)
 
@@ -30,7 +34,7 @@ function ReaderLayout({ bookId, pageNum }) {
 
   return (
     <>
-      <StopAudioOnPageChange pageNum={pageNum} />
+      <StopAudioOnPageChange bookId={bookId} pageNum={pageNum} />
 
       <div className="flex h-full min-h-0 flex-col lg:flex-row">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:border-r lg:border-slate-200">

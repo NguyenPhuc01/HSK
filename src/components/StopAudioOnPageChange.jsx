@@ -1,17 +1,20 @@
 import { useEffect, useRef } from 'react'
 import { useAudio } from '../context/AudioContext'
 
-/** Component nhỏ — dừng audio khi đổi trang, không ảnh hưởng PDF */
-export default function StopAudioOnPageChange({ pageNum }) {
+/** Dừng audio khi đổi trang hoặc đổi sách trong reader */
+export default function StopAudioOnPageChange({ bookId, pageNum }) {
   const { stopTrack } = useAudio()
-  const prev = useRef(pageNum)
+  const prev = useRef(null)
 
   useEffect(() => {
-    if (prev.current !== pageNum) {
-      stopTrack()
-      prev.current = pageNum
+    if (prev.current !== null) {
+      const { bookId: prevBook, pageNum: prevPage } = prev.current
+      if (prevBook !== bookId || prevPage !== pageNum) {
+        stopTrack()
+      }
     }
-  }, [pageNum, stopTrack])
+    prev.current = { bookId, pageNum }
+  }, [bookId, pageNum, stopTrack])
 
   return null
 }
