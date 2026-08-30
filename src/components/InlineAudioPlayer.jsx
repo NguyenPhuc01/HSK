@@ -1,15 +1,10 @@
 import { Pause, Play, RotateCcw, RotateCw } from 'lucide-react'
 import { useAudio } from '../context/AudioContext'
-
-function formatTime(seconds) {
-  if (!Number.isFinite(seconds)) return '0:00'
-  const m = Math.floor(seconds / 60)
-  const s = Math.floor(seconds % 60)
-  return `${m}:${s.toString().padStart(2, '0')}`
-}
+import AudioProgressBar, { formatAudioTime } from './AudioProgressBar'
 
 export default function InlineAudioPlayer({ trackId, src, label }) {
-  const { activeTrack, isPlaying, currentTime, duration, playTrack, skip, seek } = useAudio()
+  const { activeTrack, isPlaying, currentTime, duration, playTrack, skip, seek, beginScrub, endScrub } =
+    useAudio()
   const isActive = activeTrack === trackId
   const playing = isActive && isPlaying
 
@@ -28,7 +23,7 @@ export default function InlineAudioPlayer({ trackId, src, label }) {
         <p className="text-xs font-semibold text-violet-900">{label}</p>
         {isActive && (
           <p className="text-[11px] text-slate-500">
-            {formatTime(currentTime)} / {formatTime(duration)}
+            {formatAudioTime(currentTime)} / {formatAudioTime(duration)}
           </p>
         )}
       </div>
@@ -53,14 +48,14 @@ export default function InlineAudioPlayer({ trackId, src, label }) {
             5s
             <RotateCw size={14} />
           </button>
-          <input
-            type="range"
-            min={0}
-            max={duration || 0}
-            step={0.1}
-            value={currentTime}
-            onChange={(e) => seek(Number(e.target.value))}
-            className="h-1.5 w-28 cursor-pointer accent-violet-600"
+          <AudioProgressBar
+            currentTime={currentTime}
+            duration={duration}
+            onSeek={seek}
+            onScrubStart={beginScrub}
+            onScrubEnd={endScrub}
+            className="w-28"
+            accent="violet"
           />
         </>
       )}

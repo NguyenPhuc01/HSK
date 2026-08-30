@@ -19,7 +19,7 @@ function PdfPane({ pageNum }) {
   )
 
   return (
-    <div className="flex h-full min-h-0 flex-col pb-36 lg:pb-20">
+    <div className="flex h-full min-h-0 flex-col pb-48 lg:pb-[72px]">
       <TextbookViewer
         page={pageNum}
         totalPages={TOTAL_PAGES}

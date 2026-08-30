@@ -16,3 +16,72 @@ code {
 .react-pdf__Page {
   @apply mb-4;
 }
+
+/* Audio progress — mượt hơn range mặc định */
+.audio-progress {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 9999px;
+  cursor: pointer;
+  touch-action: none;
+  background: linear-gradient(
+    to right,
+    var(--progress-fill) 0%,
+    var(--progress-fill) var(--progress, 0%),
+    rgb(226 232 240) var(--progress, 0%),
+    rgb(226 232 240) 100%
+  );
+}
+
+.audio-progress-teal {
+  --progress-fill: rgb(13 148 136);
+}
+
+.audio-progress-violet {
+  --progress-fill: rgb(124 58 237);
+}
+
+.audio-progress::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: transparent;
+}
+
+.audio-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -4px;
+  border-radius: 9999px;
+  background: var(--progress-fill);
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+  transition: transform 0.1s ease;
+}
+
+.audio-progress:active::-webkit-slider-thumb {
+  transform: scale(1.15);
+}
+
+.audio-progress::-moz-range-track {
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(226 232 240);
+}
+
+.audio-progress::-moz-range-progress {
+  height: 6px;
+  border-radius: 9999px;
+  background: var(--progress-fill);
+}
+
+.audio-progress::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background: var(--progress-fill);
+  border: 2px solid white;
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+}

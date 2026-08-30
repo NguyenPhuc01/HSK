@@ -12,7 +12,7 @@ export default function MobileAudioDock({ tracks }) {
   return (
     <div
       className={`fixed left-0 right-0 z-20 border-t border-teal-200 bg-white/95 px-4 py-3 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur lg:hidden ${
-        playerVisible ? 'bottom-[72px]' : 'bottom-0'
+        playerVisible ? 'bottom-[96px]' : 'bottom-0'
       }`}
     >
       <p className="mb-2 text-center text-xs font-semibold text-teal-700">

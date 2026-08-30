@@ -1,16 +1,40 @@
-import { createContext, useCallback, useContext, useRef, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 const AudioContext = createContext(null)
+
+const PLAYBACK_SPEEDS = [0.5, 0.75, 1, 1.25, 1.5]
+
+export { PLAYBACK_SPEEDS }
 
 export function AudioProvider({ children }) {
   const audioRef = useRef(null)
   const activeSrcRef = useRef(null)
-  const lastTimeUpdate = useRef(0)
+  const isScrubbingRef = useRef(false)
+  const pendingTimeRef = useRef(0)
+  const rafRef = useRef(null)
   const [activeTrack, setActiveTrack] = useState(null)
   const [activeLabel, setActiveLabel] = useState('')
   const [isPlaying, setIsPlaying] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(1)
+  const [playbackRate, setPlaybackRate] = useState(1)
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (audio) audio.volume = volume
+  }, [volume])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (audio) audio.playbackRate = playbackRate
+  }, [playbackRate])
+
+  useEffect(() => {
+    return () => {
+      if (rafRef.current != null) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
 
   const playTrack = useCallback((trackId, src, label = '') => {
     const audio = audioRef.current
@@ -60,7 +84,10 @@ export function AudioProvider({ children }) {
   const seek = useCallback((time) => {
     const audio = audioRef.current
     if (!audio) return
-    audio.currentTime = Math.max(0, Math.min(time, audio.duration || 0))
+    const max = audio.duration || 0
+    const next = Math.max(0, Math.min(time, max))
+    audio.currentTime = next
+    setCurrentTime(next)
   }, [])
 
   const skip = useCallback((seconds) => {
@@ -69,11 +96,31 @@ export function AudioProvider({ children }) {
     seek(audio.currentTime + seconds)
   }, [seek])
 
+  const cyclePlaybackRate = useCallback(() => {
+    setPlaybackRate((prev) => {
+      const index = PLAYBACK_SPEEDS.indexOf(prev)
+      return PLAYBACK_SPEEDS[(index + 1) % PLAYBACK_SPEEDS.length]
+    })
+  }, [])
+
+  const beginScrub = useCallback(() => {
+    isScrubbingRef.current = true
+  }, [])
+
+  const endScrub = useCallback(() => {
+    isScrubbingRef.current = false
+    const audio = audioRef.current
+    if (audio) setCurrentTime(audio.currentTime)
+  }, [])
+
   const handleTimeUpdate = useCallback((time) => {
-    const now = Date.now()
-    if (now - lastTimeUpdate.current < 250) return
-    lastTimeUpdate.current = now
-    setCurrentTime(time)
+    if (isScrubbingRef.current) return
+    pendingTimeRef.current = time
+    if (rafRef.current != null) return
+    rafRef.current = requestAnimationFrame(() => {
+      setCurrentTime(pendingTimeRef.current)
+      rafRef.current = null
+    })
   }, [])
 
   const value = {
@@ -82,12 +129,19 @@ export function AudioProvider({ children }) {
     isPlaying,
     currentTime,
     duration,
+    volume,
+    playbackRate,
     playTrack,
     togglePlay,
     pause,
     stopTrack,
     seek,
     skip,
+    beginScrub,
+    endScrub,
+    setVolume,
+    setPlaybackRate,
+    cyclePlaybackRate,
   }
 
   return (
@@ -100,10 +154,14 @@ export function AudioProvider({ children }) {
         onPause={() => setIsPlaying(false)}
         onTimeUpdate={(e) => handleTimeUpdate(e.currentTarget.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        onSeeked={(e) => {
+          if (!isScrubbingRef.current) setCurrentTime(e.currentTarget.currentTime)
+        }}
         onEnded={() => {
           setIsPlaying(false)
           setActiveTrack(null)
           setActiveLabel('')
+          setCurrentTime(0)
         }}
       />
     </AudioContext.Provider>

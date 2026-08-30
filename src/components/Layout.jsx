@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom'
 import { Menu } from 'lucide-react'
 import Sidebar from './Sidebar'
 import BottomAudioBar from './BottomAudioBar'
+import AudioKeyboardListener from './AudioKeyboardListener'
 import { useSidebar } from '../context/SidebarContext'
 
 export default function Layout() {
@@ -53,6 +54,7 @@ export default function Layout() {
       </div>
 
       <BottomAudioBar />
+      <AudioKeyboardListener />
     </div>
   )
 }
