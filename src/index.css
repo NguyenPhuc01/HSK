@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-slate-100 text-slate-900 antialiased;
+}
+
+code {
+  @apply font-mono;
+}
+
+/* react-pdf text layer */
+.react-pdf__Page__canvas {
+  @apply mx-auto;
+}
+
+.react-pdf__Page {
+  @apply mb-4;
+}
