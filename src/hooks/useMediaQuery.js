@@ -16,6 +16,7 @@ export function useMediaQuery(query) {
   return matches
 }
 
+/** Chỉ điện thoại (< 768px). Tablet dùng viewer PC (có zoom). */
 export function useIsMobile() {
-  return useMediaQuery('(max-width: 1023px)')
+  return useMediaQuery('(max-width: 767px)')
 }

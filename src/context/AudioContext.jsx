@@ -42,6 +42,10 @@ export function AudioProvider({ children }) {
 
     if (activeTrack === trackId) {
       if (audio.paused) {
+        if (audio.ended || (audio.duration > 0 && audio.currentTime >= audio.duration - 0.05)) {
+          audio.currentTime = 0
+          setCurrentTime(0)
+        }
         audio.play()
       } else {
         audio.pause()
@@ -61,8 +65,16 @@ export function AudioProvider({ children }) {
   const togglePlay = useCallback(() => {
     const audio = audioRef.current
     if (!audio || !activeTrack) return
-    if (audio.paused) audio.play()
-    else audio.pause()
+    if (audio.paused) {
+      // Hết bài → Play lại từ đầu
+      if (audio.ended || (audio.duration > 0 && audio.currentTime >= audio.duration - 0.05)) {
+        audio.currentTime = 0
+        setCurrentTime(0)
+      }
+      audio.play()
+    } else {
+      audio.pause()
+    }
   }, [activeTrack])
 
   const pause = useCallback(() => {
@@ -157,11 +169,10 @@ export function AudioProvider({ children }) {
         onSeeked={(e) => {
           if (!isScrubbingRef.current) setCurrentTime(e.currentTarget.currentTime)
         }}
-        onEnded={() => {
+        onEnded={(e) => {
+          // Giữ player mở — đứng yên ở cuối bài (không ẩn bar)
           setIsPlaying(false)
-          setActiveTrack(null)
-          setActiveLabel('')
-          setCurrentTime(0)
+          setCurrentTime(e.currentTarget.duration || 0)
         }}
       />
     </AudioContext.Provider>
