@@ -13,7 +13,7 @@ import { useAudio, PLAYBACK_SPEEDS } from '../context/AudioContext'
 import AudioProgressBar, { formatAudioTime } from './AudioProgressBar'
 import { getLessonInfoFromTrackLabel } from '../lib/trackLessonInfo'
 
-const SKIP_SECONDS = 10
+const SKIP_SECONDS = 5
 
 function formatSpeed(rate) {
   return rate === 1 ? '1x' : `${rate}x`
@@ -31,7 +31,7 @@ function Skip10Button({ direction, onClick, title }) {
     >
       <Icon size={24} strokeWidth={1.75} className="sm:h-5 sm:w-5" />
       <span className="pointer-events-none absolute text-[9px] font-bold leading-none sm:text-[8px]">
-        10
+        5
       </span>
     </button>
   )

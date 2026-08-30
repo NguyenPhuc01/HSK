@@ -24,13 +24,13 @@ export function useAudioKeyboard() {
 
       if (e.code === 'ArrowLeft') {
         e.preventDefault()
-        skip(-10)
+        skip(-5)
         return
       }
 
       if (e.code === 'ArrowRight') {
         e.preventDefault()
-        skip(10)
+        skip(5)
       }
     }
 
