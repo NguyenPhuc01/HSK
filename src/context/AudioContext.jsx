@@ -5,6 +5,7 @@ const AudioContext = createContext(null)
 export function AudioProvider({ children }) {
   const audioRef = useRef(null)
   const activeSrcRef = useRef(null)
+  const lastTimeUpdate = useRef(0)
   const [activeTrack, setActiveTrack] = useState(null)
   const [activeLabel, setActiveLabel] = useState('')
   const [isPlaying, setIsPlaying] = useState(false)
@@ -68,6 +69,13 @@ export function AudioProvider({ children }) {
     seek(audio.currentTime + seconds)
   }, [seek])
 
+  const handleTimeUpdate = useCallback((time) => {
+    const now = Date.now()
+    if (now - lastTimeUpdate.current < 250) return
+    lastTimeUpdate.current = now
+    setCurrentTime(time)
+  }, [])
+
   const value = {
     activeTrack,
     activeLabel,
@@ -90,7 +98,7 @@ export function AudioProvider({ children }) {
         preload="metadata"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+        onTimeUpdate={(e) => handleTimeUpdate(e.currentTarget.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onEnded={() => {
           setIsPlaying(false)

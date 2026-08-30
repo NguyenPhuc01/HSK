@@ -1,9 +1,12 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, BookOpen, Download } from 'lucide-react'
-import { TOTAL_PAGES } from '../data/textbookSections'
+import { ArrowRight, BookOpen } from 'lucide-react'
+import { TOTAL_PAGES } from '../data/pageAudioMap'
+import { loadReadingPage } from '../hooks/useReadingProgress'
 import { audioManifest } from '../data/audioManifest'
 
 export default function HomePage() {
+  const savedPage = loadReadingPage()
+
   return (
     <div className="h-full overflow-y-auto">
       <div className="mx-auto max-w-2xl space-y-8 p-4 md:p-8">
@@ -15,37 +18,28 @@ export default function HomePage() {
             Giáo trình {TOTAL_PAGES} trang + Audio
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-teal-100 md:text-base">
-            Chọn trang ở menu bên trái (1 → {TOTAL_PAGES}) để xem giáo trình.
-            Trang có audio sẽ hiện icon loa — nhấn để nghe.
+            Cuộn xuống để đọc liên tục — trang tự chuyển.
+            Nhấn nút loa màu xanh ở dưới màn hình để nghe audio.
           </p>
-          <Link
-            to="/read/1"
-            className="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-teal-700 shadow hover:bg-teal-50"
-          >
-            <BookOpen size={16} />
-            Bắt đầu từ trang 1
-            <ArrowRight size={16} />
-          </Link>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Link
+              to={`/read/${savedPage}`}
+              className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-teal-700 shadow hover:bg-teal-50"
+            >
+              <BookOpen size={16} />
+              Tiếp tục trang {savedPage}
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              to="/read/1"
+              className="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white hover:bg-white/25"
+            >
+              Từ trang 1
+            </Link>
+          </div>
           <div className="mt-4 flex flex-wrap gap-2 text-xs">
             <span className="rounded-full bg-white/15 px-3 py-1">{TOTAL_PAGES} trang PDF</span>
             <span className="rounded-full bg-white/15 px-3 py-1">{audioManifest.length} file audio</span>
-          </div>
-        </section>
-
-        <section className="rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-900">
-          <div className="flex items-start gap-2">
-            <Download size={18} className="mt-0.5 shrink-0" />
-            <div>
-              <p className="font-semibold">Cài đặt lần đầu</p>
-              <ul className="mt-2 space-y-1 text-amber-800">
-                <li>
-                  <code className="rounded bg-amber-100 px-1.5 py-0.5">npm run download-textbook</code>
-                </li>
-                <li>
-                  <code className="rounded bg-amber-100 px-1.5 py-0.5">npm run download-audio</code>
-                </li>
-              </ul>
-            </div>
           </div>
         </section>
       </div>

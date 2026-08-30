@@ -15,7 +15,7 @@ export default function BottomAudioBar() {
   if (!activeTrack) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:px-6">
+    <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)] backdrop-blur md:px-6 lg:left-64 xl:left-72">
       <div className="mx-auto flex max-w-5xl items-center gap-3">
         <button
           type="button"

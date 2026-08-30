@@ -3,11 +3,9 @@ import { Menu } from 'lucide-react'
 import Sidebar from './Sidebar'
 import BottomAudioBar from './BottomAudioBar'
 import { useSidebar } from '../context/SidebarContext'
-import { useAudio } from '../context/AudioContext'
 
 export default function Layout() {
   const { open, isOpen, close } = useSidebar()
-  const { activeTrack } = useAudio()
 
   return (
     <div className="flex h-screen overflow-hidden bg-slate-100">
@@ -49,7 +47,7 @@ export default function Layout() {
           </div>
         </header>
 
-        <main className={`flex-1 overflow-hidden ${activeTrack ? 'pb-[72px]' : ''}`}>
+        <main className="min-h-0 flex-1 overflow-hidden">
           <Outlet />
         </main>
       </div>
