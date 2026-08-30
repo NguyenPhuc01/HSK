@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "download-audio": "node scripts/download-audio.mjs",
     "download-textbook": "node scripts/download-textbook.mjs",
-    "download-all": "npm run download-textbook && npm run download-audio"
+    "download-workbook": "node scripts/download-workbook.mjs",
+    "download-workbook-audio": "node scripts/download-workbook-audio.mjs",
+    "download-all": "npm run download-textbook && npm run download-audio && npm run download-workbook && npm run download-workbook-audio"
   },
   "dependencies": {
     "lucide-react": "^0.542.0",

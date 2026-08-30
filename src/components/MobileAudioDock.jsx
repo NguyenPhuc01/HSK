@@ -1,8 +1,8 @@
 import { Volume2, Pause } from 'lucide-react'
-import { getAudioSrc } from '../data/audioManifest'
+import { getAudioSrc } from '../data/audioManifests'
 import { useAudio } from '../context/AudioContext'
 
-export default function MobileAudioDock({ tracks }) {
+export default function MobileAudioDock({ bookId, tracks }) {
   const { activeTrack, isPlaying, playTrack } = useAudio()
 
   if (!tracks?.length) return null
@@ -26,7 +26,7 @@ export default function MobileAudioDock({ tracks }) {
               key={track.id}
               type="button"
               onClick={() =>
-                playTrack(track.id, getAudioSrc(track.audio), track.trackLabel)
+                playTrack(track.id, getAudioSrc(bookId, track.audio), track.trackLabel)
               }
               className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-bold shadow-md transition active:scale-95 ${
                 playing

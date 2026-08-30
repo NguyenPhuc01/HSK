@@ -1,9 +1,11 @@
 import { Volume2, Pause } from 'lucide-react'
-import { getAudioSrc } from '../data/audioManifest'
+import { getAudioSrc } from '../data/audioManifests'
 import { useAudio } from '../context/AudioContext'
 
-export default function AudioTrackList({ sections, compact = false }) {
+export default function AudioTrackList({ bookId = 'textbook', sections, compact = false }) {
   const { activeTrack, isPlaying, playTrack } = useAudio()
+
+  const src = (section) => getAudioSrc(bookId, section.audio)
 
   if (compact) {
     return (
@@ -16,7 +18,7 @@ export default function AudioTrackList({ sections, compact = false }) {
               key={section.id}
               type="button"
               onClick={() =>
-                playTrack(section.id, getAudioSrc(section.audio), section.trackLabel)
+                playTrack(section.id, src(section), section.trackLabel)
               }
               className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold transition ${
                 playing
@@ -45,7 +47,7 @@ export default function AudioTrackList({ sections, compact = false }) {
             <button
               type="button"
               onClick={() =>
-                playTrack(section.id, getAudioSrc(section.audio), section.trackLabel)
+                playTrack(section.id, src(section), section.trackLabel)
               }
               className={`group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition ${
                 playing

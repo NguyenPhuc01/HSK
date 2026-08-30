@@ -4,8 +4,7 @@ import '../lib/pdfSetup'
 
 const PdfContext = createContext(null)
 
-/** Load PDF 1 lần — không bao giờ ẩn children sau khi đã load */
-function PdfDocumentProviderInner({ children }) {
+function PdfDocumentProviderInner({ pdfPath, loadingLabel = 'Đang mở sách…', children }) {
   const [numPages, setNumPages] = useState(null)
   const readyRef = useRef(false)
 
@@ -16,11 +15,12 @@ function PdfDocumentProviderInner({ children }) {
       <div className="flex h-full min-h-0 flex-col">
         {!ready && (
           <div className="flex flex-1 items-center justify-center text-sm text-slate-500">
-            Đang mở giáo trình…
+            {loadingLabel}
           </div>
         )}
         <Document
-          file="/textbook.pdf"
+          key={pdfPath}
+          file={pdfPath}
           onLoadSuccess={({ numPages: n }) => {
             readyRef.current = true
             setNumPages(n)

@@ -5,7 +5,7 @@ import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import ReaderPage from './pages/ReaderPage'
 import AudioMapAdminPage from './pages/AudioMapAdminPage'
-import { loadReadingPage } from './hooks/useReadingProgress'
+import { loadLastBookId, loadReadingPage } from './hooks/useReadingProgress'
 import { textbookSections } from './data/textbookSections'
 
 export default function App() {
@@ -18,7 +18,8 @@ export default function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/read" element={<ResumeRedirect />} />
-              <Route path="/read/:page" element={<ReaderPage />} />
+              <Route path="/read/:bookId/:page" element={<ReaderPage />} />
+              <Route path="/read/:page" element={<LegacyReaderRedirect />} />
               <Route path="/lesson/:id" element={<LessonRedirect />} />
             </Route>
           </Routes>
@@ -29,12 +30,18 @@ export default function App() {
 }
 
 function ResumeRedirect() {
-  const saved = loadReadingPage()
-  return <Navigate to={`/read/${saved}`} replace />
+  const bookId = loadLastBookId()
+  const saved = loadReadingPage(bookId)
+  return <Navigate to={`/read/${bookId}/${saved}`} replace />
+}
+
+function LegacyReaderRedirect() {
+  const { page } = useParams()
+  return <Navigate to={`/read/textbook/${page}`} replace />
 }
 
 function LessonRedirect() {
   const { id } = useParams()
   const section = textbookSections.find((s) => s.lessonId === Number(id))
-  return <Navigate to={`/read/${section?.startPage ?? loadReadingPage()}`} replace />
+  return <Navigate to={`/read/textbook/${section?.startPage ?? loadReadingPage('textbook')}`} replace />
 }

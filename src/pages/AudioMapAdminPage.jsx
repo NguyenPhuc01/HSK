@@ -4,14 +4,24 @@ import { Page } from 'react-pdf'
 import Tesseract from 'tesseract.js'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
 import '../lib/pdfSetup'
+import { getBook, BOOK_LIST } from '../data/books'
 import {
-  TOTAL_PAGES,
+  getTotalPages,
   getAllTrackLabelsFromManifest,
   pageAudioMap,
-} from '../data/pageAudioMap'
-import rawMap from '../data/pageAudioMap.json'
+} from '../data/bookAudio'
+import textbookRawMap from '../data/pageAudioMap.json'
+import workbookRawMap from '../data/workbookPageAudioMap.json'
 
-const STORAGE_KEY = 'hsk1-audio-map-draft'
+const DRAFT_KEYS = {
+  textbook: 'hsk1-audio-map-draft-textbook',
+  workbook: 'hsk1-audio-map-draft-workbook',
+}
+
+const RAW_MAPS = {
+  textbook: textbookRawMap,
+  workbook: workbookRawMap,
+}
 
 function labelsFromOcr(text) {
   const matches = text.match(/\b(0[0-9]|1[0-5])-(\d{1,2})\b/g) ?? []
@@ -27,19 +37,22 @@ function sortLabels(labels) {
   })
 }
 
-function loadDraft() {
+function loadDraft(bookId) {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY)
+    const saved = localStorage.getItem(DRAFT_KEYS[bookId])
     if (saved) return JSON.parse(saved)
   } catch {
     /* ignore */
   }
-  return { ...rawMap }
+  return { ...RAW_MAPS[bookId] }
 }
 
 function AudioMapEditor() {
-  const allLabels = useMemo(() => sortLabels(getAllTrackLabelsFromManifest()), [])
-  const [map, setMap] = useState(loadDraft)
+  const [bookId, setBookId] = useState('textbook')
+  const book = getBook(bookId)
+  const totalPages = getTotalPages(bookId)
+  const allLabels = useMemo(() => sortLabels(getAllTrackLabelsFromManifest(bookId)), [bookId])
+  const [map, setMap] = useState(() => loadDraft('textbook'))
   const [page, setPage] = useState(1)
   const [scanning, setScanning] = useState(false)
   const [scanAllProgress, setScanAllProgress] = useState(null)
@@ -52,8 +65,13 @@ function AudioMapEditor() {
   )
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(map))
-  }, [map])
+    setMap(loadDraft(bookId))
+    setPage(1)
+  }, [bookId])
+
+  useEffect(() => {
+    localStorage.setItem(DRAFT_KEYS[bookId], JSON.stringify(map))
+  }, [map, bookId])
 
   useEffect(() => {
     const update = () => {
@@ -104,13 +122,13 @@ function AudioMapEditor() {
   }
 
   const scanAllPages = async () => {
-    if (!window.confirm('Quét OCR 143 trang (~5–15 phút). Tiếp tục?')) return
+    if (!window.confirm(`Quét OCR ${totalPages} trang (~5–15 phút). Tiếp tục?`)) return
 
-    setScanAllProgress({ current: 0, total: TOTAL_PAGES })
+    setScanAllProgress({ current: 0, total: totalPages })
     const nextMap = { ...map }
 
-    for (let p = 1; p <= TOTAL_PAGES; p += 1) {
-      setScanAllProgress({ current: p, total: TOTAL_PAGES })
+    for (let p = 1; p <= totalPages; p += 1) {
+      setScanAllProgress({ current: p, total: totalPages })
       setPage(p)
 
       await new Promise((r) => setTimeout(r, 600))
@@ -164,8 +182,8 @@ function AudioMapEditor() {
 
   const resetToBuiltIn = () => {
     if (window.confirm('Reset về file pageAudioMap.json gốc trong project?')) {
-      localStorage.removeItem(STORAGE_KEY)
-      setMap({ ...rawMap })
+      localStorage.removeItem(DRAFT_KEYS[bookId])
+      setMap({ ...RAW_MAPS[bookId] })
     }
   }
 
@@ -173,17 +191,35 @@ function AudioMapEditor() {
   const builtInCount = Object.keys(pageAudioMap).length
 
   return (
+    <PdfDocumentProvider key={bookId} pdfPath={book.pdfPath} loadingLabel={`Đang mở ${book.shortTitle}…`}>
     <div className="flex h-screen flex-col bg-slate-100">
       <header className="shrink-0 border-b border-slate-200 bg-white px-4 py-3">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
-          <div>
-            <h1 className="text-lg font-bold text-slate-800">Map audio chính xác</h1>
-            <p className="text-xs text-slate-500">
-              Chọn đúng mã audio có icon đĩa trên từng trang · Draft: {mappedCount} trang ·
-              Built-in: {builtInCount} trang
-            </p>
+          <div className="flex flex-wrap items-center gap-3">
+            <div>
+              <h1 className="text-lg font-bold text-slate-800">Map audio chính xác</h1>
+              <p className="text-xs text-slate-500">
+                {book.title} · Draft: {mappedCount} trang · Built-in: {builtInCount} trang
+              </p>
+            </div>
+            <div className="flex gap-1">
+              {BOOK_LIST.map((b) => (
+                <button
+                  key={b.id}
+                  type="button"
+                  onClick={() => setBookId(b.id)}
+                  className={`rounded-lg px-3 py-1 text-xs font-semibold ${
+                    bookId === b.id
+                      ? 'bg-teal-600 text-white'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {b.shortTitle}
+                </button>
+              ))}
+            </div>
           </div>
-          <Link to="/read/1" className="text-sm text-teal-600 hover:underline">
+          <Link to={`/read/${bookId}/1`} className="text-sm text-teal-600 hover:underline">
             ← Về đọc sách
           </Link>
         </div>
@@ -203,11 +239,11 @@ function AudioMapEditor() {
                 ←
               </button>
               <span className="text-sm font-semibold">
-                Trang {page} / {TOTAL_PAGES}
+                Trang {page} / {totalPages}
               </span>
               <button
                 type="button"
-                disabled={page >= TOTAL_PAGES}
+                disabled={page >= totalPages}
                 onClick={() => setPage((p) => p + 1)}
                 className="rounded-lg px-3 py-1.5 text-sm disabled:opacity-40"
               >
@@ -216,11 +252,11 @@ function AudioMapEditor() {
               <input
                 type="number"
                 min={1}
-                max={TOTAL_PAGES}
+                max={totalPages}
                 value={page}
                 onChange={(e) => {
                   const n = Number(e.target.value)
-                  if (n >= 1 && n <= TOTAL_PAGES) setPage(n)
+                  if (n >= 1 && n <= totalPages) setPage(n)
                 }}
                 className="w-16 rounded border border-slate-200 px-2 py-1 text-center text-sm"
               />
@@ -326,20 +362,19 @@ function AudioMapEditor() {
             </button>
             <p className="text-[10px] leading-relaxed text-slate-400">
               Sau Export: thay file{' '}
-              <code className="text-slate-500">src/data/pageAudioMap.json</code> rồi reload app.
+              <code className="text-slate-500">
+                src/data/{bookId === 'workbook' ? 'workbookPageAudioMap.json' : 'pageAudioMap.json'}
+              </code> rồi reload app.
               OCR ~90% chính xác — nên kiểm tra trang có 2+ audio.
             </p>
           </div>
         </div>
       </div>
     </div>
+    </PdfDocumentProvider>
   )
 }
 
 export default function AudioMapAdminPage() {
-  return (
-    <PdfDocumentProvider>
-      <AudioMapEditor />
-    </PdfDocumentProvider>
-  )
+  return <AudioMapEditor />
 }

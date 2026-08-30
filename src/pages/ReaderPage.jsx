@@ -5,24 +5,26 @@ import AudioSidebar from '../components/AudioSidebar'
 import MobileAudioDock from '../components/MobileAudioDock'
 import StopAudioOnPageChange from '../components/StopAudioOnPageChange'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
-import { TOTAL_PAGES, getAudioTracksForPage } from '../data/pageAudioMap'
+import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
+import { getBook, isValidBookId } from '../data/books'
 import { saveReadingPage } from '../hooks/useReadingProgress'
 
-function ReaderLayout({ pageNum }) {
+function ReaderLayout({ bookId, pageNum }) {
+  const book = getBook(bookId)
+
   useEffect(() => {
-    saveReadingPage(pageNum)
-  }, [pageNum])
+    saveReadingPage(bookId, pageNum)
+  }, [bookId, pageNum])
 
-  const audioTracks = getAudioTracksForPage(pageNum)
+  const audioTracks = getAudioTracksForPage(bookId, pageNum)
 
-  // Khóa subtree PDF — không re-render khi audio state thay đổi
   const pdfView = useMemo(
     () => (
-      <PdfDocumentProvider>
-        <PdfPane pageNum={pageNum} />
+      <PdfDocumentProvider pdfPath={book.pdfPath} loadingLabel={`Đang mở ${book.shortTitle}…`}>
+        <PdfPane bookId={bookId} pageNum={pageNum} />
       </PdfDocumentProvider>
     ),
-    [pageNum],
+    [book.pdfPath, book.shortTitle, bookId, pageNum],
   )
 
   return (
@@ -34,26 +36,31 @@ function ReaderLayout({ pageNum }) {
           {pdfView}
         </div>
 
-        <AudioSidebar pageNum={pageNum} />
+        <AudioSidebar bookId={bookId} pageNum={pageNum} />
       </div>
 
-      <MobileAudioDock tracks={audioTracks} />
+      <MobileAudioDock bookId={bookId} tracks={audioTracks} />
     </>
   )
 }
 
 export default function ReaderPage() {
-  const { page: pageParam } = useParams()
+  const { bookId, page: pageParam } = useParams()
+
+  if (!isValidBookId(bookId)) {
+    return <Navigate to="/read/textbook/1" replace />
+  }
 
   if (pageParam && !/^\d+$/.test(pageParam)) {
-    return <Navigate to="/read/1" replace />
+    return <Navigate to={`/read/${bookId}/1`} replace />
   }
 
   const pageNum = Number(pageParam)
+  const totalPages = getTotalPages(bookId)
 
-  if (!pageParam || !Number.isInteger(pageNum) || pageNum < 1 || pageNum > TOTAL_PAGES) {
-    return <Navigate to="/read/1" replace />
+  if (!pageParam || !Number.isInteger(pageNum) || pageNum < 1 || pageNum > totalPages) {
+    return <Navigate to={`/read/${bookId}/1`} replace />
   }
 
-  return <ReaderLayout pageNum={pageNum} />
+  return <ReaderLayout bookId={bookId} pageNum={pageNum} />
 }
