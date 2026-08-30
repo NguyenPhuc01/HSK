@@ -74,7 +74,7 @@ export default function BottomAudioBar() {
   const VolumeIcon = volume === 0 ? VolumeX : Volume2
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur lg:left-64 xl:left-72">
+    <div className="fixed bottom-0 left-0 right-0 z-30 border-t border-slate-200 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] backdrop-blur safe-bottom safe-x lg:left-64 xl:left-72">
       <div className="mx-auto flex max-w-6xl items-center gap-3 px-3 py-2.5 sm:gap-4 sm:px-4 sm:py-3">
         {/* Trái — track + bài + volume */}
         <div className="hidden min-w-0 shrink-0 items-center gap-2.5 md:flex md:w-[220px] lg:w-[260px]">

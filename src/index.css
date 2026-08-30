@@ -2,7 +2,34 @@
 
 body {
   @apply bg-slate-100 text-slate-900 antialiased;
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#root {
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+/* iOS PWA — tránh home indicator & góc bo màn hình */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.safe-x {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* Chiều cao ước lượng bottom audio bar (mobile 2 hàng) */
+:root {
+  --audio-bar-mobile-h: 5.75rem;
+}
+
+.mobile-dock-above-player {
+  bottom: calc(var(--audio-bar-mobile-h) + env(safe-area-inset-bottom, 0px));
 }
 
 code {

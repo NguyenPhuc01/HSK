@@ -9,7 +9,7 @@ export default function Layout() {
   const { open, isOpen, close } = useSidebar()
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-100">
+    <div className="flex h-dvh overflow-hidden bg-slate-100">
       {/* Desktop sidebar */}
       <aside className="hidden h-full w-64 shrink-0 border-r border-slate-200 bg-white lg:block xl:w-72">
         <Sidebar />
@@ -33,7 +33,7 @@ export default function Layout() {
       {/* Main area */}
       <div className="flex min-w-0 flex-1 flex-col">
         {/* Mobile / tablet header */}
-        <header className="flex shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
+        <header className="safe-top safe-x flex shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-4 py-3 lg:hidden">
           <button
             type="button"
             onClick={open}
