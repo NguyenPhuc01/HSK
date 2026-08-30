@@ -22,10 +22,13 @@ function Skip10Button({ direction, onClick, title }) {
   return (
     <button
       type="button"
-      onClick={onClick}
+      onPointerDown={(e) => {
+        e.stopPropagation()
+        onClick()
+      }}
       title={title}
       aria-label={title}
-      className="relative flex h-12 w-12 items-center justify-center rounded-full text-slate-600 active:bg-slate-100"
+      className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full text-slate-600 active:bg-slate-100"
     >
       <Icon size={26} strokeWidth={1.75} />
       <span className="pointer-events-none absolute text-[9px] font-bold leading-none">5</span>
@@ -126,40 +129,20 @@ export default function MobileAudioPanel({ bookId, tracks }) {
               </span>
             </div>
 
-            <AudioProgressBar
-              currentTime={currentTime}
-              duration={duration}
-              onSeek={seek}
-              onScrubStart={beginScrub}
-              onScrubEnd={endScrub}
-              className="mb-1 w-full"
-              accent="teal"
-            />
+            <div className="relative z-0 mb-1 h-5 overflow-hidden">
+              <AudioProgressBar
+                currentTime={currentTime}
+                duration={duration}
+                onSeek={seek}
+                onScrubStart={beginScrub}
+                onScrubEnd={endScrub}
+                className="absolute inset-x-0 top-1/2 w-full -translate-y-1/2"
+                accent="teal"
+              />
+            </div>
 
-            {speedOpen && (
-              <div className="mb-2 flex flex-wrap justify-center gap-1.5">
-                {PLAYBACK_SPEEDS.map((speed) => (
-                  <button
-                    key={speed}
-                    type="button"
-                    onClick={() => {
-                      setPlaybackRate(speed)
-                      setSpeedOpen(false)
-                    }}
-                    className={`rounded-full px-3 py-1 text-xs font-semibold tabular-nums transition active:scale-95 ${
-                      playbackRate === speed
-                        ? 'bg-teal-600 text-white'
-                        : 'bg-slate-100 text-slate-600'
-                    }`}
-                  >
-                    {formatSpeed(speed)}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            <div className="mt-1 flex items-center justify-between">
-              <div className="w-14" ref={speedRef}>
+            <div className="relative z-10 mt-1 flex items-center justify-between">
+              <div className="relative w-14" ref={speedRef}>
                 <button
                   type="button"
                   onClick={() => setSpeedOpen((v) => !v)}
@@ -170,6 +153,27 @@ export default function MobileAudioPanel({ bookId, tracks }) {
                 >
                   {formatSpeed(playbackRate)}
                 </button>
+                {speedOpen && (
+                  <div className="absolute bottom-full left-0 z-50 mb-2 min-w-[112px] overflow-hidden rounded-xl border border-slate-200 bg-white py-1 shadow-lg">
+                    {PLAYBACK_SPEEDS.map((speed) => (
+                      <button
+                        key={speed}
+                        type="button"
+                        onClick={() => {
+                          setPlaybackRate(speed)
+                          setSpeedOpen(false)
+                        }}
+                        className={`block w-full px-3 py-2.5 text-left text-sm tabular-nums ${
+                          playbackRate === speed
+                            ? 'font-semibold text-teal-700'
+                            : 'text-slate-700'
+                        }`}
+                      >
+                        {formatSpeed(speed)}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
 
               <div className="flex items-center gap-2">
