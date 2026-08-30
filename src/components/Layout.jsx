@@ -37,10 +37,10 @@ export default function Layout() {
           <button
             type="button"
             onClick={open}
-            className="rounded-lg p-2 text-slate-600 hover:bg-slate-100"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-slate-600 active:bg-slate-100"
             aria-label="Mở menu"
           >
-            <Menu size={22} />
+            <Menu size={30} strokeWidth={2} />
           </button>
           <div>
             <p className="text-sm font-bold text-slate-900">HSK 1 Reader</p>
