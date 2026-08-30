@@ -2,7 +2,8 @@ import { useEffect, useMemo } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import PdfPane from '../components/PdfPane'
 import AudioSidebar from '../components/AudioSidebar'
-import MobileAudioDock from '../components/MobileAudioDock'
+import MobileAudioPanel from '../components/MobileAudioPanel'
+import MobileAudioTrackStrip from '../components/MobileAudioTrackStrip'
 import StopAudioOnPageChange from '../components/StopAudioOnPageChange'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
 import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
@@ -39,7 +40,8 @@ function ReaderLayout({ bookId, pageNum }) {
         <AudioSidebar bookId={bookId} pageNum={pageNum} />
       </div>
 
-      <MobileAudioDock bookId={bookId} tracks={audioTracks} />
+      <MobileAudioPanel bookId={bookId} tracks={audioTracks} />
+      <MobileAudioTrackStrip bookId={bookId} tracks={audioTracks} />
     </>
   )
 }

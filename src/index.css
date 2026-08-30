@@ -23,13 +23,11 @@ body {
   padding-right: env(safe-area-inset-right, 0px);
 }
 
-/* Chiều cao ước lượng bottom audio bar (mobile 2 hàng) */
+/* Chiều cao audio bar & panels */
 :root {
-  --audio-bar-mobile-h: 5.75rem;
-}
-
-.mobile-dock-above-player {
-  bottom: calc(var(--audio-bar-mobile-h) + env(safe-area-inset-bottom, 0px));
+  --audio-bar-h: 4.5rem;
+  --mobile-track-strip-h: 3rem;
+  --mobile-audio-panel-open-h: 11.5rem;
 }
 
 code {
@@ -49,6 +47,8 @@ code {
 .audio-progress {
   -webkit-appearance: none;
   appearance: none;
+  display: block;
+  width: 100%;
   height: 6px;
   border-radius: 9999px;
   cursor: pointer;
@@ -112,4 +112,12 @@ code {
   background: var(--progress-fill);
   border: 2px solid white;
   box-shadow: 0 1px 4px rgb(0 0 0 / 0.2);
+}
+
+/* Volume dọc — hover popup kiểu YouTube */
+.audio-progress-vertical {
+  width: 5rem;
+  height: 6px;
+  transform: rotate(-90deg);
+  transform-origin: center center;
 }

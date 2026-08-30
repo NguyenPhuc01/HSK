@@ -1,12 +1,13 @@
 import { memo, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import TextbookViewer from '../components/TextbookViewer'
-import { getTotalPages } from '../data/bookAudio'
+import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
 import { saveReadingPage } from '../hooks/useReadingProgress'
 
 function PdfPane({ bookId, pageNum }) {
   const navigate = useNavigate()
   const totalPages = getTotalPages(bookId)
+  const hasTracks = getAudioTracksForPage(bookId, pageNum).length > 0
 
   const handlePageChange = useCallback(
     (nextPage) => {
@@ -19,7 +20,13 @@ function PdfPane({ bookId, pageNum }) {
   )
 
   return (
-    <div className="flex h-dvh min-h-0 flex-col pb-[calc(12rem+env(safe-area-inset-bottom,0px))] lg:pb-[72px]">
+    <div
+      className={`flex h-dvh min-h-0 flex-col ${
+        hasTracks
+          ? 'pb-[calc(var(--mobile-audio-panel-open-h)+env(safe-area-inset-bottom,0px))] md:pb-[calc(var(--audio-bar-h)+var(--mobile-track-strip-h)+env(safe-area-inset-bottom,0px))] lg:pb-[var(--audio-bar-h)]'
+          : 'pb-[env(safe-area-inset-bottom,0px)]'
+      }`}
+    >
       <TextbookViewer
         page={pageNum}
         totalPages={totalPages}
