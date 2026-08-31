@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useMatch } from 'react-router-dom'
 import {
   MoreVertical,
   Pause,
@@ -12,6 +13,8 @@ import {
 import { useAudio, PLAYBACK_SPEEDS } from '../context/AudioContext'
 import AudioProgressBar, { formatAudioTime } from './AudioProgressBar'
 import { getLessonInfoFromTrackLabel } from '../lib/trackLessonInfo'
+import { getAudioTracksForPage } from '../data/bookAudio'
+import { isValidBookId } from '../data/books'
 
 const SKIP_SECONDS = 5
 
@@ -47,7 +50,7 @@ export default function BottomAudioBar() {
     volume,
     playbackRate,
     togglePlay,
-    stopTrack,
+    resetPlayback,
     skip,
     seek,
     beginScrub,
@@ -68,7 +71,15 @@ export default function BottomAudioBar() {
     return () => document.removeEventListener('pointerdown', close)
   }, [speedOpen])
 
-  if (!activeTrack) return null
+  const readerMatch = useMatch('/read/:bookId/:page')
+  const readerBookId = readerMatch?.params?.bookId
+  const readerPage = Number(readerMatch?.params?.page)
+  const pageTracks =
+    readerBookId && isValidBookId(readerBookId) && Number.isInteger(readerPage)
+      ? getAudioTracksForPage(readerBookId, readerPage)
+      : []
+
+  if (!activeTrack && pageTracks.length === 0) return null
 
   const { badge, lessonTitle } = getLessonInfoFromTrackLabel(activeLabel || activeTrack)
   const VolumeIcon = volume === 0 ? VolumeX : Volume2
@@ -143,7 +154,7 @@ export default function BottomAudioBar() {
 
       <button
         type="button"
-        onClick={stopTrack}
+        onClick={resetPlayback}
         className="rounded-full p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
         aria-label="Dừng phát"
         title="Dừng phát"

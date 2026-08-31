@@ -36,6 +36,33 @@ export function AudioProvider({ children }) {
     }
   }, [])
 
+  const selectTrack = useCallback((trackId, src, label = '') => {
+    const audio = audioRef.current
+    if (!audio) return
+
+    audio.pause()
+    setActiveTrack(trackId)
+    setActiveLabel(label)
+    setIsPlaying(false)
+    setCurrentTime(0)
+    setDuration(0)
+    if (src) {
+      activeSrcRef.current = src
+      audio.src = src
+      audio.load()
+    }
+  }, [])
+
+  const resetPlayback = useCallback(() => {
+    const audio = audioRef.current
+    if (audio) {
+      audio.pause()
+      audio.currentTime = 0
+    }
+    setIsPlaying(false)
+    setCurrentTime(0)
+  }, [])
+
   const playTrack = useCallback((trackId, src, label = '') => {
     const audio = audioRef.current
     if (!audio) return
@@ -144,9 +171,11 @@ export function AudioProvider({ children }) {
     volume,
     playbackRate,
     playTrack,
+    selectTrack,
     togglePlay,
     pause,
     stopTrack,
+    resetPlayback,
     seek,
     skip,
     beginScrub,

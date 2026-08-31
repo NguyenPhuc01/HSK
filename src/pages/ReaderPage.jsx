@@ -4,16 +4,16 @@ import PdfPane from '../components/PdfPane'
 import AudioSidebar from '../components/AudioSidebar'
 import MobileAudioPanel from '../components/MobileAudioPanel'
 import MobileAudioTrackStrip from '../components/MobileAudioTrackStrip'
-import StopAudioOnPageChange from '../components/StopAudioOnPageChange'
 import { useAudio } from '../context/AudioContext'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
+import { getAudioSrc } from '../data/audioManifests'
 import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
 import { getBook, isValidBookId } from '../data/books'
 import { saveReadingPage } from '../hooks/useReadingProgress'
 
 function ReaderLayout({ bookId, pageNum }) {
   const book = getBook(bookId)
-  const { stopTrack } = useAudio()
+  const { stopTrack, selectTrack } = useAudio()
 
   useEffect(() => {
     saveReadingPage(bookId, pageNum)
@@ -22,6 +22,16 @@ function ReaderLayout({ bookId, pageNum }) {
   useEffect(() => () => stopTrack(), [stopTrack])
 
   const audioTracks = getAudioTracksForPage(bookId, pageNum)
+
+  useEffect(() => {
+    const tracks = getAudioTracksForPage(bookId, pageNum)
+    if (tracks.length === 0) {
+      stopTrack()
+      return
+    }
+    const first = tracks[0]
+    selectTrack(first.id, getAudioSrc(bookId, first.audio), first.trackLabel)
+  }, [bookId, pageNum, selectTrack, stopTrack])
 
   const pdfView = useMemo(
     () => (
@@ -34,8 +44,6 @@ function ReaderLayout({ bookId, pageNum }) {
 
   return (
     <>
-      <StopAudioOnPageChange bookId={bookId} pageNum={pageNum} />
-
       <div className="flex h-full min-h-0 flex-col lg:flex-row">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:border-r lg:border-slate-200">
           {pdfView}
