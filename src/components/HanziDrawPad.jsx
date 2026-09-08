@@ -139,17 +139,9 @@ const HanziDrawPad = forwardRef(function HanziDrawPad(
     const needed = Math.max(minW, Math.round(maxX + h * EXPAND_MARGIN + 12))
     if (needed > w) {
       setCanvasDims(needed, h)
-    }
-    // Bring empty space into view so the next character has room — after layout
-    requestAnimationFrame(() => {
-      const el = scrollRef.current
-      if (!el) return
-      const pad = h * 0.35
-      const targetLeft = Math.max(0, maxX + pad - el.clientWidth * 0.65)
-      const maxScroll = Math.max(0, el.scrollWidth - el.clientWidth)
-      el.scrollLeft = Math.min(maxScroll, targetLeft)
+    } else {
       updatePanState()
-    })
+    }
   }, [contentMaxX, isStrip, setCanvasDims, updatePanState])
 
   const notifyStrokes = useCallback(() => {
@@ -412,7 +404,7 @@ const HanziDrawPad = forwardRef(function HanziDrawPad(
             <ChevronLeft size={18} />
           </button>
           <p className="flex-1 text-center text-[11px] leading-snug text-slate-400">
-            Viết xong một nét khung mới dài thêm. Dùng mũi tên để xem lại.
+            Viết sang phải khi cần; khung dài thêm sau mỗi nét. Dùng mũi tên để xem lại.
           </p>
           <button
             type="button"
