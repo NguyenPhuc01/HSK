@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, Eye, EyeOff, RotateCcw, Volume2 } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, EyeOff, Loader2, RotateCcw, Volume2 } from 'lucide-react'
 import HanziStrokeWord from '../components/HanziStrokeWord'
 import { useAudio } from '../context/AudioContext'
 import { speakChinese, cancelSpeech } from '../lib/speakChinese'
@@ -40,6 +40,7 @@ export default function VocabStudyPage() {
   const navigate = useNavigate()
   const { stopTrack } = useAudio()
   const [replayKey, setReplayKey] = useState(0)
+  const [speaking, setSpeaking] = useState(false)
   const [{ hideHanzi, hidePinyin }, setHide] = useState(loadHidePrefs)
 
   useEffect(() => {
@@ -49,6 +50,20 @@ export default function VocabStudyPage() {
   useEffect(() => {
     return () => cancelSpeech()
   }, [hanzi])
+
+  useEffect(() => {
+    setSpeaking(false)
+  }, [hanzi])
+
+  async function handleSpeak() {
+    if (speaking) return
+    setSpeaking(true)
+    try {
+      await speakChinese(word.hanzi)
+    } finally {
+      setSpeaking(false)
+    }
+  }
 
   useEffect(() => {
     if (!localWord || wantExternal) {
@@ -197,11 +212,12 @@ export default function VocabStudyPage() {
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             <button
               type="button"
-              onClick={() => speakChinese(word.hanzi)}
-              className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700"
+              onClick={handleSpeak}
+              disabled={speaking}
+              className="inline-flex items-center gap-1.5 rounded-full bg-teal-600 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              <Volume2 size={16} />
-              Nghe
+              {speaking ? <Loader2 size={16} className="animate-spin" /> : <Volume2 size={16} />}
+              {speaking ? 'Đang phát…' : 'Nghe'}
             </button>
             {!hideHanzi && (
               <button
