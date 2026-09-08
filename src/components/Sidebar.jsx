@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
-import { BookOpen, ClipboardList, Languages, Volume2, X } from 'lucide-react'
+import { BookOpen, ClipboardList, Languages, PenLine, Volume2, X } from 'lucide-react'
 import { pageHasAudio, getTotalPages } from '../data/bookAudio'
 import { BOOK_LIST, getBook } from '../data/books'
 
 export default function Sidebar({ onNavigate }) {
   const match = useMatch('/read/:bookId/:page')
   const vocabMatch = useMatch('/vocab/:hanzi')
+  const writeMatch = useMatch('/write/:hanzi')
   const isVocab = Boolean(useMatch('/vocab') || vocabMatch)
+  const isWrite = Boolean(useMatch('/write') || writeMatch)
   const bookId = match?.params.bookId
   const currentPage = match ? Number(match.params.page) : null
   const book = getBook(bookId)
@@ -46,7 +48,13 @@ export default function Sidebar({ onNavigate }) {
             <div>
               <h1 className="text-sm font-bold text-slate-900">HSK 1 Reader</h1>
               <p className="text-xs text-slate-500">
-                {isVocab ? 'Từ vựng HSK' : bookId ? `${book.shortTitle} · ${totalPages} trang` : 'Giáo trình + Học từ'}
+                {isVocab
+                  ? 'Từ vựng HSK'
+                  : isWrite
+                    ? 'Luyện viết'
+                    : bookId
+                      ? `${book.shortTitle} · ${totalPages} trang`
+                      : 'Giáo trình + Học từ'}
               </p>
             </div>
           </div>
@@ -83,6 +91,10 @@ export default function Sidebar({ onNavigate }) {
           <Languages size={16} />
           Học từ
         </NavLink>
+        <NavLink to="/write" className={linkClass} onClick={onNavigate}>
+          <PenLine size={16} />
+          Luyện viết
+        </NavLink>
 
         {bookId && (
           <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
@@ -94,10 +106,19 @@ export default function Sidebar({ onNavigate }) {
             Học từ
           </p>
         )}
+        {isWrite && (
+          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            Luyện viết
+          </p>
+        )}
 
         {isVocab ? (
           <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
             HSK 1, HSK 2 và tên quốc gia — bấm một từ để xem chữ Hán, nét viết và pinyin.
+          </p>
+        ) : isWrite ? (
+          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+            Viết chữ Hán trên khung — app nhận diện rồi hiện pinyin và nghĩa tiếng Việt.
           </p>
         ) : bookId ? (
           <div className="space-y-px">

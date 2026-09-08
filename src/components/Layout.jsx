@@ -8,6 +8,8 @@ import { useSidebar } from '../context/SidebarContext'
 export default function Layout() {
   const { open, isOpen, close } = useSidebar()
   const isVocab = Boolean(useMatch({ path: '/vocab', end: false }))
+  const isWrite = Boolean(useMatch({ path: '/write', end: false }))
+  const headerSub = isVocab ? 'Học từ' : isWrite ? 'Luyện viết' : 'Giáo trình + Audio'
 
   return (
     <div className="flex h-dvh overflow-hidden bg-slate-100">
@@ -45,7 +47,7 @@ export default function Layout() {
           </button>
           <div>
             <p className="text-sm font-bold text-slate-900">HSK 1 Reader</p>
-            <p className="text-xs text-slate-500">{isVocab ? 'Học từ' : 'Giáo trình + Audio'}</p>
+            <p className="text-xs text-slate-500">{headerSub}</p>
           </div>
         </header>
 
