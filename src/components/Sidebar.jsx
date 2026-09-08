@@ -1,16 +1,18 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
-import { BookOpen, ClipboardList, Volume2, X } from 'lucide-react'
+import { BookOpen, ClipboardList, Languages, Volume2, X } from 'lucide-react'
 import { pageHasAudio, getTotalPages } from '../data/bookAudio'
 import { BOOK_LIST, getBook } from '../data/books'
 
 export default function Sidebar({ onNavigate }) {
   const match = useMatch('/read/:bookId/:page')
-  const bookId = match?.params.bookId ?? 'textbook'
+  const vocabMatch = useMatch('/vocab/:hanzi')
+  const isVocab = Boolean(useMatch('/vocab') || vocabMatch)
+  const bookId = match?.params.bookId
   const currentPage = match ? Number(match.params.page) : null
   const book = getBook(bookId)
-  const totalPages = getTotalPages(bookId)
-  const pages = Array.from({ length: totalPages }, (_, i) => i + 1)
+  const totalPages = getTotalPages(bookId ?? 'textbook')
+  const pages = bookId ? Array.from({ length: totalPages }, (_, i) => i + 1) : []
   const activeRef = useRef(null)
 
   useEffect(() => {
@@ -26,12 +28,10 @@ export default function Sidebar({ onNavigate }) {
         : 'text-slate-600 hover:bg-slate-100'
     }`
 
-  const bookTabClass = (id) =>
-    `flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-xs font-semibold transition ${
-      bookId === id
-        ? 'bg-teal-600 text-white shadow-sm'
-        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-    }`
+  function bookHref(id) {
+    const page = currentPage && bookId === id ? currentPage : 1
+    return `/read/${id}/${page}`
+  }
 
   return (
     <div className="flex h-full flex-col">
@@ -45,7 +45,9 @@ export default function Sidebar({ onNavigate }) {
             />
             <div>
               <h1 className="text-sm font-bold text-slate-900">HSK 1 Reader</h1>
-              <p className="text-xs text-slate-500">{book.shortTitle} · {totalPages} trang</p>
+              <p className="text-xs text-slate-500">
+                {isVocab ? 'Từ vựng HSK' : bookId ? `${book.shortTitle} · ${totalPages} trang` : 'Giáo trình + Học từ'}
+              </p>
             </div>
           </div>
           {onNavigate && (
@@ -59,20 +61,6 @@ export default function Sidebar({ onNavigate }) {
             </button>
           )}
         </div>
-
-        <div className="mt-3 flex gap-1">
-          {BOOK_LIST.map((b) => (
-            <NavLink
-              key={b.id}
-              to={`/read/${b.id}/${currentPage && bookId === b.id ? currentPage : 1}`}
-              className={bookTabClass(b.id)}
-              onClick={onNavigate}
-            >
-              {b.id === 'textbook' ? <BookOpen size={14} /> : <ClipboardList size={14} />}
-              {b.shortTitle}
-            </NavLink>
-          ))}
-        </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto p-2">
@@ -80,42 +68,70 @@ export default function Sidebar({ onNavigate }) {
           <BookOpen size={16} />
           Trang chủ
         </NavLink>
+        {BOOK_LIST.map((b) => (
+          <NavLink
+            key={b.id}
+            to={bookHref(b.id)}
+            className={() => linkClass({ isActive: bookId === b.id })}
+            onClick={onNavigate}
+          >
+            {b.id === 'textbook' ? <BookOpen size={16} /> : <ClipboardList size={16} />}
+            {b.shortTitle}
+          </NavLink>
+        ))}
+        <NavLink to="/vocab" className={linkClass} onClick={onNavigate}>
+          <Languages size={16} />
+          Học từ
+        </NavLink>
 
-        <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
-          {book.title}
-        </p>
+        {bookId && (
+          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            {book.title}
+          </p>
+        )}
+        {isVocab && (
+          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            Học từ
+          </p>
+        )}
 
-        <div className="space-y-px">
-          {pages.map((pageNum) => {
-            const hasAudio = pageHasAudio(bookId, pageNum)
-            const isActive = currentPage === pageNum
+        {isVocab ? (
+          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+            HSK 1, HSK 2 và tên quốc gia — bấm một từ để xem chữ Hán, nét viết và pinyin.
+          </p>
+        ) : bookId ? (
+          <div className="space-y-px">
+            {pages.map((pageNum) => {
+              const hasAudio = pageHasAudio(bookId, pageNum)
+              const isActive = currentPage === pageNum
 
-            return (
-              <NavLink
-                key={pageNum}
-                to={`/read/${bookId}/${pageNum}`}
-                className={linkClass}
-                onClick={onNavigate}
-                ref={isActive ? activeRef : undefined}
-              >
-                <span
-                  className={`w-8 shrink-0 text-right font-mono text-xs tabular-nums ${
-                    isActive ? 'text-teal-100' : 'text-slate-400'
-                  }`}
+              return (
+                <NavLink
+                  key={pageNum}
+                  to={`/read/${bookId}/${pageNum}`}
+                  className={linkClass}
+                  onClick={onNavigate}
+                  ref={isActive ? activeRef : undefined}
                 >
-                  {pageNum}
-                </span>
-                <span className="flex-1 truncate">Trang {pageNum}</span>
-                {hasAudio && (
-                  <Volume2
-                    size={13}
-                    className={isActive ? 'text-teal-200' : 'text-teal-500 opacity-70'}
-                  />
-                )}
-              </NavLink>
-            )
-          })}
-        </div>
+                  <span
+                    className={`w-8 shrink-0 text-right font-mono text-xs tabular-nums ${
+                      isActive ? 'text-teal-100' : 'text-slate-400'
+                    }`}
+                  >
+                    {pageNum}
+                  </span>
+                  <span className="flex-1 truncate">Trang {pageNum}</span>
+                  {hasAudio && (
+                    <Volume2
+                      size={13}
+                      className={isActive ? 'text-teal-200' : 'text-teal-500 opacity-70'}
+                    />
+                  )}
+                </NavLink>
+              )
+            })}
+          </div>
+        ) : null}
       </nav>
     </div>
   )

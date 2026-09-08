@@ -4,6 +4,8 @@ import { SidebarProvider } from './context/SidebarContext'
 import Layout from './components/Layout'
 import HomePage from './pages/HomePage'
 import ReaderPage from './pages/ReaderPage'
+import VocabListPage from './pages/VocabListPage'
+import VocabStudyPage from './pages/VocabStudyPage'
 import AudioMapAdminPage from './pages/AudioMapAdminPage'
 import { loadLastBookId, loadReadingPage } from './hooks/useReadingProgress'
 import { textbookSections } from './data/textbookSections'
@@ -17,6 +19,8 @@ export default function App() {
             <Route path="/admin/audio-map" element={<AudioMapAdminPage />} />
             <Route element={<Layout />}>
               <Route path="/" element={<HomePage />} />
+              <Route path="/vocab" element={<VocabListPage />} />
+              <Route path="/vocab/:hanzi" element={<VocabStudyPage />} />
               <Route path="/read" element={<ResumeRedirect />} />
               <Route path="/read/:bookId/:page" element={<ReaderPage />} />
               <Route path="/read/:page" element={<LegacyReaderRedirect />} />
