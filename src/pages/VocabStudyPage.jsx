@@ -8,7 +8,6 @@ import {
   EyeOff,
   Loader2,
   PenLine,
-  RotateCcw,
   Volume2,
 } from 'lucide-react'
 import HanziDrawPad from '../components/HanziDrawPad'
@@ -50,7 +49,6 @@ export default function VocabStudyPage() {
   const listHref = vocabHref(null, { q: query, g: group, t: topic })
   const navigate = useNavigate()
   const { stopTrack } = useAudio()
-  const [replayKey, setReplayKey] = useState(0)
   const [speaking, setSpeaking] = useState(false)
   const [drawMode, setDrawMode] = useState(false)
   const [drawCharIndex, setDrawCharIndex] = useState(0)
@@ -271,7 +269,7 @@ export default function VocabStudyPage() {
                     ))}
                   </div>
                 ) : (
-                  <HanziStrokeWord hanzi={word.hanzi} replayKey={replayKey} />
+                  <HanziStrokeWord hanzi={word.hanzi} />
                 )}
               </div>
 
@@ -310,16 +308,6 @@ export default function VocabStudyPage() {
                   <PenLine size={16} />
                   Viết
                 </button>
-                {!hideHanzi && (
-                  <button
-                    type="button"
-                    onClick={() => setReplayKey((n) => n + 1)}
-                    className="inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-sm font-semibold text-teal-800 ring-1 ring-slate-200 hover:bg-slate-50"
-                  >
-                    <RotateCcw size={16} />
-                    Xem lại nét
-                  </button>
-                )}
               </div>
             </>
           )}

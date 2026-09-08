@@ -270,6 +270,18 @@ const HanziDrawPad = forwardRef(function HanziDrawPad(
     onStrokesChange?.(0)
     heightLockRef.current = null
     if (scrollRef.current) scrollRef.current.scrollLeft = 0
+
+    // Always wipe bitmap — setCanvasDims no-ops when size unchanged and would
+    // leave the previous character's ink on screen.
+    const canvas = canvasRef.current
+    if (canvas) {
+      const ctx = canvas.getContext('2d')
+      ctx.save()
+      ctx.setTransform(1, 0, 0, 1, 0, 0)
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.restore()
+      applyPenStyle(ctx, dimsRef.current.h)
+    }
     measureAndFit()
     // eslint-disable-next-line react-hooks/exhaustive-deps -- char only
   }, [char])

@@ -12,7 +12,7 @@ function charBoxSize(count) {
   return Math.min(132, raw)
 }
 
-export default function HanziStrokeWord({ hanzi, replayKey = 0 }) {
+export default function HanziStrokeWord({ hanzi }) {
   const hostRef = useRef(null)
   const [failed, setFailed] = useState(false)
 
@@ -42,6 +42,7 @@ export default function HanziStrokeWord({ hanzi, replayKey = 0 }) {
           padding: Math.max(8, Math.round(size * 0.06)),
           strokeAnimationSpeed: 1,
           delayBetweenStrokes: 180,
+          delayBetweenLoops: 1200,
           strokeColor: '#0f766e',
           outlineColor: '#e2e8f0',
           radicalColor: '#0d9488',
@@ -54,20 +55,25 @@ export default function HanziStrokeWord({ hanzi, replayKey = 0 }) {
         writers.push(writer)
       }
 
-      await new Promise((r) => setTimeout(r, 700))
+      await new Promise((r) => setTimeout(r, 500))
       if (cancelled) return
       if (loadErrors === chars.length) {
         setFailed(true)
         return
       }
 
-      for (const writer of writers) {
-        if (cancelled) return
-        try {
-          await writer.animateCharacter()
-        } catch {
-          /* animation cancelled */
+      while (!cancelled) {
+        for (const writer of writers) {
+          if (cancelled) return
+          try {
+            writer.hideCharacter()
+            await writer.animateCharacter()
+          } catch {
+            /* animation cancelled */
+          }
         }
+        if (cancelled) return
+        await new Promise((r) => setTimeout(r, 1200))
       }
     }
 
@@ -84,7 +90,7 @@ export default function HanziStrokeWord({ hanzi, replayKey = 0 }) {
       }
       host.innerHTML = ''
     }
-  }, [hanzi, replayKey])
+  }, [hanzi])
 
   if (failed) {
     return (
