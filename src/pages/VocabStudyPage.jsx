@@ -14,6 +14,7 @@ import {
   splitHanzi,
   vocabHref,
 } from '../data/hsk1Vocab'
+import { loadExternalWord, lookupExternalHanzi, saveExternalWord } from '../lib/externalDict'
 
 export default function VocabStudyPage() {
   const { hanzi: rawHanzi } = useParams()
@@ -21,10 +22,21 @@ export default function VocabStudyPage() {
   const hanzi = decodeURIComponent(rawHanzi ?? '')
   const query = searchParams.get('q') ?? ''
   const group = searchParams.get('g') ?? 'all'
-  const word = getVocabByHanzi(hanzi)
-  const filtered = searchVocab(query, group)
+  const topic = searchParams.get('t') ?? ''
+  const wantExternal = searchParams.get('ext') === '1'
+  const localWord = getVocabByHanzi(hanzi)
+  const [externalWord, setExternalWord] = useState(() =>
+    wantExternal || !localWord ? loadExternalWord(hanzi) : null,
+  )
+  const [extLoading, setExtLoading] = useState(false)
+  const [extFailed, setExtFailed] = useState(false)
+
+  const word = localWord && !wantExternal ? localWord : externalWord || localWord
+  const isExternal = Boolean(word && !localWord) || (wantExternal && Boolean(externalWord))
+
+  const filtered = searchVocab(query, group, topic)
   const { index, prev, next, total } = getAdjacentVocab(hanzi, filtered)
-  const listHref = vocabHref(null, { q: query, g: group })
+  const listHref = vocabHref(null, { q: query, g: group, t: topic })
   const navigate = useNavigate()
   const { stopTrack } = useAudio()
   const [replayKey, setReplayKey] = useState(0)
@@ -39,8 +51,43 @@ export default function VocabStudyPage() {
   }, [hanzi])
 
   useEffect(() => {
-    if (word) saveLastVocab(word.hanzi)
-  }, [word])
+    if (!localWord || wantExternal) {
+      const cached = loadExternalWord(hanzi)
+      if (cached) {
+        setExternalWord(cached)
+        setExtFailed(false)
+        return undefined
+      }
+      let cancelled = false
+      setExtLoading(true)
+      setExtFailed(false)
+      lookupExternalHanzi(hanzi)
+        .then((entry) => {
+          if (cancelled) return
+          if (entry) {
+            saveExternalWord(entry)
+            setExternalWord(entry)
+          } else {
+            setExtFailed(true)
+          }
+        })
+        .catch(() => {
+          if (!cancelled) setExtFailed(true)
+        })
+        .finally(() => {
+          if (!cancelled) setExtLoading(false)
+        })
+      return () => {
+        cancelled = true
+      }
+    }
+    setExternalWord(null)
+    return undefined
+  }, [hanzi, localWord, wantExternal])
+
+  useEffect(() => {
+    if (word && !isExternal) saveLastVocab(word.hanzi)
+  }, [word, isExternal])
 
   useEffect(() => {
     saveHidePrefs({ hideHanzi, hidePinyin })
@@ -49,14 +96,35 @@ export default function VocabStudyPage() {
   useEffect(() => {
     function onKey(e) {
       if (!(e.target instanceof Element) || e.target.closest('input, textarea')) return
-      if (e.key === 'ArrowLeft' && prev) navigate(vocabHref(prev.hanzi, { q: query, g: group }))
-      if (e.key === 'ArrowRight' && next) navigate(vocabHref(next.hanzi, { q: query, g: group }))
+      if (isExternal) return
+      if (e.key === 'ArrowLeft' && prev) navigate(vocabHref(prev.hanzi, { q: query, g: group, t: topic }))
+      if (e.key === 'ArrowRight' && next) navigate(vocabHref(next.hanzi, { q: query, g: group, t: topic }))
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [navigate, prev, next, query, group])
+  }, [navigate, prev, next, query, group, topic, isExternal])
 
-  if (!word) return <Navigate to={listHref} replace />
+  if (extLoading && !word) {
+    return (
+      <div className="flex h-full items-center justify-center p-8 text-sm text-slate-500">
+        Đang tải từ ngoài…
+      </div>
+    )
+  }
+
+  if (!word) {
+    if (extFailed) {
+      return (
+        <div className="flex h-full flex-col items-center justify-center gap-3 p-8 text-center">
+          <p className="text-sm text-slate-500">Không tra được từ này.</p>
+          <Link to={listHref} className="text-sm font-medium text-teal-700 hover:underline">
+            ← Về danh sách
+          </Link>
+        </div>
+      )
+    }
+    return <Navigate to={listHref} replace />
+  }
 
   const charCount = splitHanzi(word.hanzi).length
 
@@ -72,7 +140,11 @@ export default function VocabStudyPage() {
             ← Danh sách
           </Link>
           <p className="text-xs tabular-nums text-slate-400">
-            {index + 1} / {total}
+            {isExternal ? (
+              <span className="rounded-full bg-teal-50 px-2 py-0.5 font-semibold text-teal-700">Từ ngoài</span>
+            ) : (
+              `${index + 1} / ${total}`
+            )}
           </p>
         </div>
 
@@ -115,7 +187,12 @@ export default function VocabStudyPage() {
             )}
           </div>
 
-          <p className="mt-3 text-lg text-slate-700">{word.meaningVi}</p>
+          <p className="mt-3 text-lg text-slate-700">
+            {word.meaningVi}
+            {word.meaningLang === 'en' ? (
+              <span className="ml-2 align-middle text-[10px] font-semibold uppercase text-slate-400">EN</span>
+            ) : null}
+          </p>
 
           <div className="mt-6 flex flex-wrap justify-center gap-2">
             <button
@@ -139,30 +216,47 @@ export default function VocabStudyPage() {
           </div>
         </section>
 
-        <nav className="mt-5 flex items-center justify-between gap-3">
-          {prev ? (
-            <Link
-              to={vocabHref(prev.hanzi, { q: query, g: group })}
-              className="inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-medium text-slate-600 hover:bg-white hover:text-teal-700"
-            >
-              <ChevronLeft size={18} />
-              {prev.hanzi}
-            </Link>
-          ) : (
-            <span />
-          )}
-          {next ? (
-            <Link
-              to={vocabHref(next.hanzi, { q: query, g: group })}
-              className="inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-medium text-slate-600 hover:bg-white hover:text-teal-700"
-            >
-              {next.hanzi}
-              <ChevronRight size={18} />
-            </Link>
-          ) : (
-            <span />
-          )}
-        </nav>
+        {!isExternal ? (
+          <nav className="mt-5 flex items-center justify-between gap-3">
+            {prev ? (
+              <Link
+                to={vocabHref(prev.hanzi, { q: query, g: group, t: topic })}
+                className="inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-medium text-slate-600 hover:bg-white hover:text-teal-700"
+              >
+                <ChevronLeft size={18} />
+                {prev.hanzi}
+              </Link>
+            ) : (
+              <span />
+            )}
+            {next ? (
+              <Link
+                to={vocabHref(next.hanzi, { q: query, g: group, t: topic })}
+                className="inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-sm font-medium text-slate-600 hover:bg-white hover:text-teal-700"
+              >
+                {next.hanzi}
+                <ChevronRight size={18} />
+              </Link>
+            ) : (
+              <span />
+            )}
+          </nav>
+        ) : (
+          <p className="mt-5 text-center text-xs text-slate-400">
+            Từ tạm từ từ điển ngoài — chưa lưu vào danh sách HSK.
+            {localWord ? (
+              <>
+                {' '}
+                <Link
+                  to={vocabHref(localWord.hanzi, { q: query, g: group, t: topic })}
+                  className="font-medium text-teal-700 hover:underline"
+                >
+                  Xem bản trong app
+                </Link>
+              </>
+            ) : null}
+          </p>
+        )}
       </div>
     </div>
   )

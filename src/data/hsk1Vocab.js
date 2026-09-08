@@ -1,4 +1,7 @@
-/** HSK 1 (150) + quốc gia + HSK 2. `level` / `topic` dùng để lọc. */
+/** HSK 1 (150) + quốc gia + HSK 2 + từ thực tế. `level` / `topic` dùng để lọc. */
+import { PRACTICAL_WORDS, PRACTICAL_TOPICS } from './practicalVocab'
+
+export { PRACTICAL_TOPICS }
 export const HSK1_VOCAB = [
   { hanzi: '爱', pinyin: 'ài', meaningVi: 'yêu', level: 1 },
   { hanzi: '八', pinyin: 'bā', meaningVi: 'tám', level: 1 },
@@ -334,7 +337,7 @@ const HSK2_WORDS = [
   { hanzi: '左边', pinyin: 'zuǒbian', meaningVi: 'bên trái', level: 2 },
 ]
 
-export const VOCAB = [...HSK1_VOCAB, ...COUNTRY_WORDS, ...HSK2_WORDS]
+export const VOCAB = [...HSK1_VOCAB, ...COUNTRY_WORDS, ...HSK2_WORDS, ...PRACTICAL_WORDS]
 
 const LAST_KEY = 'hsk1-vocab-last'
 const HIDE_HANZI_KEY = 'hsk1-vocab-hide-hanzi'
@@ -344,12 +347,14 @@ export const VOCAB_GROUPS = [
   { id: 'all', label: 'Tất cả' },
   { id: 'hsk1', label: 'HSK 1' },
   { id: 'hsk2', label: 'HSK 2' },
+  { id: 'practical', label: 'Thực tế' },
   { id: 'country', label: 'Quốc gia' },
 ]
 
-export function vocabHref(hanzi, { q = '', g = 'all' } = {}) {
+export function vocabHref(hanzi, { q = '', g = 'all', t = '' } = {}) {
   const params = new URLSearchParams()
   if (g && g !== 'all') params.set('g', g)
+  if (g === 'practical' && t) params.set('t', t)
   if (q.trim()) params.set('q', q.trim())
   const path = hanzi ? `/vocab/${encodeURIComponent(hanzi)}` : '/vocab'
   const qs = params.toString()
@@ -379,16 +384,21 @@ export function stripPinyinTones(input) {
     .toLowerCase()
 }
 
-export function wordsInGroup(group = 'all') {
+export function wordsInGroup(group = 'all', topic = '') {
   if (group === 'hsk1') return VOCAB.filter((word) => word.level === 1 && word.topic !== 'country')
   if (group === 'hsk2') return VOCAB.filter((word) => word.level === 2)
   if (group === 'country') return VOCAB.filter((word) => word.topic === 'country')
+  if (group === 'practical') {
+    const list = VOCAB.filter((word) => word.topic && word.topic !== 'country' && !word.level)
+    if (topic) return list.filter((word) => word.topic === topic)
+    return list
+  }
   return VOCAB
 }
 
-export function searchVocab(query, group = 'all') {
+export function searchVocab(query, group = 'all', topic = '') {
   const raw = query.trim()
-  const list = raw ? VOCAB : wordsInGroup(group)
+  const list = wordsInGroup(group, topic)
   if (!raw) return list
   const lower = raw.toLowerCase()
   const pinyinQuery = stripPinyinTones(raw).replace(/\s+/g, '')
