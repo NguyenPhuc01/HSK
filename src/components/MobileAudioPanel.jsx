@@ -66,7 +66,7 @@ export default function MobileAudioPanel({ bookId, tracks }) {
     return () => document.removeEventListener('pointerdown', close)
   }, [speedOpen])
 
-  if (!tracks?.length) return null
+  if (!tracks?.length && !activeTrack) return null
 
   const playerOpen = Boolean(activeTrack)
   const { badge, lessonTitle } = playerOpen
@@ -80,41 +80,43 @@ export default function MobileAudioPanel({ bookId, tracks }) {
           <div className="h-1 w-9 rounded-full bg-slate-200" aria-hidden />
         </div>
 
-        <div className="flex gap-2 overflow-x-auto px-4 py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {tracks.map((track) => {
-            const isActive = activeTrack === track.id
-            const playing = isActive && isPlaying
-            return (
-              <button
-                key={track.id}
-                type="button"
-                onClick={() => {
-                  if (isActive) {
-                    togglePlay()
-                  } else {
-                    playTrack(track.id, getAudioSrc(bookId, track.audio), track.trackLabel)
-                  }
-                }}
-                className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition active:scale-[0.98] ${
-                  isActive
-                    ? 'bg-teal-600 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-700'
-                }`}
-              >
-                {playing ? (
-                  <Pause size={15} fill="currentColor" />
-                ) : (
-                  <Play
-                    size={15}
-                    fill="currentColor"
-                    className={isActive ? 'text-white' : 'text-teal-600'}
-                  />
-                )}
-                {track.trackLabel}
-              </button>
-            )
-          })}
-        </div>
+        {tracks?.length ? (
+          <div className="flex gap-2 overflow-x-auto px-4 py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {tracks.map((track) => {
+              const isActive = activeTrack === track.id
+              const playing = isActive && isPlaying
+              return (
+                <button
+                  key={track.id}
+                  type="button"
+                  onClick={() => {
+                    if (isActive) {
+                      togglePlay()
+                    } else {
+                      playTrack(track.id, getAudioSrc(bookId, track.audio), track.trackLabel)
+                    }
+                  }}
+                  className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-sm font-semibold transition active:scale-[0.98] ${
+                    isActive
+                      ? 'bg-teal-600 text-white shadow-sm'
+                      : 'bg-slate-100 text-slate-700'
+                  }`}
+                >
+                  {playing ? (
+                    <Pause size={15} fill="currentColor" />
+                  ) : (
+                    <Play
+                      size={15}
+                      fill="currentColor"
+                      className={isActive ? 'text-white' : 'text-teal-600'}
+                    />
+                  )}
+                  {track.trackLabel}
+                </button>
+              )
+            })}
+          </div>
+        ) : null}
 
         {playerOpen && (
           <div className="border-t border-slate-100 px-4 pb-3 pt-2">

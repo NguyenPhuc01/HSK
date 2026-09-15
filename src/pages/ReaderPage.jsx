@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import PdfPane from '../components/PdfPane'
 import AudioSidebar from '../components/AudioSidebar'
@@ -13,33 +13,44 @@ import { saveReadingPage } from '../hooks/useReadingProgress'
 
 function ReaderLayout({ bookId, pageNum }) {
   const book = getBook(bookId)
-  const { stopTrack, selectTrack } = useAudio()
+  const { stopTrack, selectTrack, activeTrack } = useAudio()
+  const activeTrackRef = useRef(activeTrack)
+  activeTrackRef.current = activeTrack
+  const prevBookRef = useRef(bookId)
 
   useEffect(() => {
     saveReadingPage(bookId, pageNum)
   }, [bookId, pageNum])
 
+  // Rời reader → dừng.
   useEffect(() => () => stopTrack(), [stopTrack])
 
-  const audioTracks = getAudioTracksForPage(bookId, pageNum)
-
+  // Đổi sách → dừng. Đổi trang trong cùng sách → giữ session (audio xuyên nhiều trang).
   useEffect(() => {
-    const tracks = getAudioTracksForPage(bookId, pageNum)
-    if (tracks.length === 0) {
+    if (prevBookRef.current !== bookId) {
+      prevBookRef.current = bookId
       stopTrack()
-      return
     }
+  }, [bookId, stopTrack])
+
+  // Chỉ auto-chọn track khi chưa có session; không ghi đè bài đang phát.
+  useEffect(() => {
+    if (activeTrackRef.current) return
+    const tracks = getAudioTracksForPage(bookId, pageNum)
+    if (tracks.length === 0) return
     const first = tracks[0]
     selectTrack(first.id, getAudioSrc(bookId, first.audio), first.trackLabel)
-  }, [bookId, pageNum, selectTrack, stopTrack])
+  }, [bookId, pageNum, selectTrack])
+
+  const audioTracks = getAudioTracksForPage(bookId, pageNum)
 
   const pdfView = useMemo(
     () => (
       <PdfDocumentProvider pdfPath={book.pdfPath} loadingLabel={`Đang mở ${book.shortTitle}…`}>
-        <PdfPane bookId={bookId} pageNum={pageNum} />
+        <PdfPane bookId={bookId} pageNum={pageNum} audioActive={Boolean(activeTrack)} />
       </PdfDocumentProvider>
     ),
-    [book.pdfPath, book.shortTitle, bookId, pageNum],
+    [book.pdfPath, book.shortTitle, bookId, pageNum, activeTrack],
   )
 
   return (

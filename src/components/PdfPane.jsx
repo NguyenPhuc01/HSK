@@ -4,10 +4,11 @@ import TextbookViewer from '../components/TextbookViewer'
 import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
 import { saveReadingPage } from '../hooks/useReadingProgress'
 
-function PdfPane({ bookId, pageNum }) {
+function PdfPane({ bookId, pageNum, audioActive = false }) {
   const navigate = useNavigate()
   const totalPages = getTotalPages(bookId)
   const hasTracks = getAudioTracksForPage(bookId, pageNum).length > 0
+  const needAudioPad = hasTracks || audioActive
 
   const handlePageChange = useCallback(
     (nextPage) => {
@@ -22,7 +23,7 @@ function PdfPane({ bookId, pageNum }) {
   return (
     <div
       className={`flex h-dvh min-h-0 flex-col ${
-        hasTracks
+        needAudioPad
           ? 'pb-[calc(var(--mobile-audio-panel-open-h)+env(safe-area-inset-bottom,0px))] md:pb-[calc(var(--audio-bar-h)+var(--mobile-track-strip-h)+env(safe-area-inset-bottom,0px))] lg:pb-[var(--audio-bar-h)]'
           : 'pb-[env(safe-area-inset-bottom,0px)]'
       }`}
