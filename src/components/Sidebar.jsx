@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
-import { BookOpen, ClipboardList, Languages, PenLine, Volume2, X } from 'lucide-react'
+import { BookOpen, ClipboardList, Languages, PenLine, ScanSearch, Volume2, X } from 'lucide-react'
 import { pageHasAudio, getTotalPages } from '../data/bookAudio'
 import { BOOK_LIST, getBook } from '../data/books'
 
@@ -10,6 +10,7 @@ export default function Sidebar({ onNavigate }) {
   const writeMatch = useMatch('/write/:hanzi')
   const isVocab = Boolean(useMatch('/vocab') || vocabMatch)
   const isWrite = Boolean(useMatch('/write') || writeMatch)
+  const isRecognize = Boolean(useMatch('/recognize'))
   const bookId = match?.params.bookId
   const currentPage = match ? Number(match.params.page) : null
   const book = getBook(bookId)
@@ -52,9 +53,11 @@ export default function Sidebar({ onNavigate }) {
                   ? 'Từ vựng HSK'
                   : isWrite
                     ? 'Luyện viết'
-                    : bookId
-                      ? `${book.shortTitle} · ${totalPages} trang`
-                      : 'Giáo trình + Học từ'}
+                    : isRecognize
+                      ? 'Nhận diện chữ'
+                      : bookId
+                        ? `${book.shortTitle} · ${totalPages} trang`
+                        : 'Giáo trình + Học từ'}
               </p>
             </div>
           </div>
@@ -95,6 +98,10 @@ export default function Sidebar({ onNavigate }) {
           <PenLine size={16} />
           Luyện viết
         </NavLink>
+        <NavLink to="/recognize" className={linkClass} onClick={onNavigate}>
+          <ScanSearch size={16} />
+          Nhận diện chữ
+        </NavLink>
 
         {bookId && (
           <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
@@ -111,6 +118,11 @@ export default function Sidebar({ onNavigate }) {
             Luyện viết
           </p>
         )}
+        {isRecognize && (
+          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            Nhận diện chữ
+          </p>
+        )}
 
         {isVocab ? (
           <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
@@ -119,6 +131,10 @@ export default function Sidebar({ onNavigate }) {
         ) : isWrite ? (
           <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
             Viết chữ Hán trên khung — app nhận diện rồi hiện pinyin và nghĩa tiếng Việt.
+          </p>
+        ) : isRecognize ? (
+          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+            Nhìn chữ Hán, chọn nghĩa tiếng Việt. Chữ hay sai sẽ hiện lại nhiều hơn.
           </p>
         ) : bookId ? (
           <div className="space-y-px">
