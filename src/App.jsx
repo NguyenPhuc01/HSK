@@ -8,6 +8,7 @@ import VocabListPage from './pages/VocabListPage'
 import VocabStudyPage from './pages/VocabStudyPage'
 import WritePracticePage from './pages/WritePracticePage'
 import RecognizePage from './pages/RecognizePage'
+import TranslatePage from './pages/TranslatePage'
 import AudioMapAdminPage from './pages/AudioMapAdminPage'
 import { loadLastBookId, loadReadingPage } from './hooks/useReadingProgress'
 import { textbookSections } from './data/textbookSections'
@@ -26,6 +27,7 @@ export default function App() {
               <Route path="/write" element={<WritePracticePage />} />
               <Route path="/write/:hanzi" element={<WritePracticePage />} />
               <Route path="/recognize" element={<RecognizePage />} />
+              <Route path="/translate" element={<TranslatePage />} />
               <Route path="/read" element={<ResumeRedirect />} />
               <Route path="/read/:bookId/:page" element={<ReaderPage />} />
               <Route path="/read/:page" element={<LegacyReaderRedirect />} />

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { NavLink, useMatch } from 'react-router-dom'
-import { BookOpen, ClipboardList, Languages, PenLine, ScanSearch, Volume2, X } from 'lucide-react'
+import { ArrowLeftRight, BookOpen, ClipboardList, Languages, PenLine, ScanSearch, Volume2, X } from 'lucide-react'
 import { pageHasAudio, getTotalPages } from '../data/bookAudio'
 import { BOOK_LIST, getBook } from '../data/books'
 
@@ -11,6 +11,7 @@ export default function Sidebar({ onNavigate }) {
   const isVocab = Boolean(useMatch('/vocab') || vocabMatch)
   const isWrite = Boolean(useMatch('/write') || writeMatch)
   const isRecognize = Boolean(useMatch('/recognize'))
+  const isTranslate = Boolean(useMatch('/translate'))
   const bookId = match?.params.bookId
   const currentPage = match ? Number(match.params.page) : null
   const book = getBook(bookId)
@@ -55,9 +56,11 @@ export default function Sidebar({ onNavigate }) {
                     ? 'Luyện viết'
                     : isRecognize
                       ? 'Nhận diện chữ'
-                      : bookId
-                        ? `${book.shortTitle} · ${totalPages} trang`
-                        : 'Giáo trình + Học từ'}
+                      : isTranslate
+                        ? 'Luyện dịch'
+                        : bookId
+                          ? `${book.shortTitle} · ${totalPages} trang`
+                          : 'Giáo trình + Học từ'}
               </p>
             </div>
           </div>
@@ -102,6 +105,10 @@ export default function Sidebar({ onNavigate }) {
           <ScanSearch size={16} />
           Nhận diện chữ
         </NavLink>
+        <NavLink to="/translate" className={linkClass} onClick={onNavigate}>
+          <ArrowLeftRight size={16} />
+          Luyện dịch
+        </NavLink>
 
         {bookId && (
           <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
@@ -123,6 +130,11 @@ export default function Sidebar({ onNavigate }) {
             Nhận diện chữ
           </p>
         )}
+        {isTranslate && (
+          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            Luyện dịch
+          </p>
+        )}
 
         {isVocab ? (
           <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
@@ -135,6 +147,10 @@ export default function Sidebar({ onNavigate }) {
         ) : isRecognize ? (
           <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
             Nhìn chữ Hán, chọn nghĩa tiếng Việt. Chữ hay sai sẽ hiện lại nhiều hơn.
+          </p>
+        ) : isTranslate ? (
+          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+            Đọc câu tiếng Việt, gõ tiếng Trung. Sai mới hiện công thức để nhớ.
           </p>
         ) : bookId ? (
           <div className="space-y-px">

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { ArrowRight, BookOpen, ClipboardList, Languages, PenLine, ScanSearch } from 'lucide-react'
+import { ArrowLeftRight, ArrowRight, BookOpen, ClipboardList, Languages, PenLine, ScanSearch } from 'lucide-react'
 import { getTotalPages } from '../data/bookAudio'
 import { getAudioCount } from '../data/audioManifests'
 import { BOOK_LIST } from '../data/books'
@@ -81,6 +81,7 @@ export default function HomePage() {
           <VocabHomeCard />
           <WriteHomeCard />
           <RecognizeHomeCard />
+          <TranslateHomeCard />
         </div>
       </div>
     </div>
@@ -184,6 +185,37 @@ function RecognizeHomeCard() {
           className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
         >
           Bắt đầu luyện
+          <ArrowRight size={16} />
+        </Link>
+      </div>
+    </section>
+  )
+}
+
+function TranslateHomeCard() {
+  return (
+    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
+      <div className="mb-3 flex items-center gap-2">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
+          <ArrowLeftRight size={18} />
+        </div>
+        <div>
+          <h3 className="font-bold text-slate-900">Luyện dịch</h3>
+          <p className="text-xs text-slate-500">Câu Việt → gõ tiếng Trung</p>
+        </div>
+      </div>
+
+      <div className="mb-4 flex flex-wrap gap-2 text-xs">
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Đúng công thức</span>
+        <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Sai mới hiện gợi ý</span>
+      </div>
+
+      <div className="mt-auto">
+        <Link
+          to="/translate"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
+        >
+          Bắt đầu dịch
           <ArrowRight size={16} />
         </Link>
       </div>
