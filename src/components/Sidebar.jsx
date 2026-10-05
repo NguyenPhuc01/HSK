@@ -38,8 +38,8 @@ export default function Sidebar({ onNavigate }) {
   }
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="border-b border-slate-200 px-4 py-4">
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="shrink-0 border-b border-slate-200 px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <img
@@ -77,114 +77,116 @@ export default function Sidebar({ onNavigate }) {
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto p-2">
-        <NavLink to="/" end className={linkClass} onClick={onNavigate}>
-          <BookOpen size={16} />
-          Trang chủ
-        </NavLink>
-        {BOOK_LIST.map((b) => (
-          <NavLink
-            key={b.id}
-            to={bookHref(b.id)}
-            className={() => linkClass({ isActive: bookId === b.id })}
-            onClick={onNavigate}
-          >
-            {b.id === 'textbook' ? <BookOpen size={16} /> : <ClipboardList size={16} />}
-            {b.shortTitle}
+      <nav className="flex min-h-0 flex-1 flex-col">
+        <div className="shrink-0 space-y-px p-2">
+          <NavLink to="/" end className={linkClass} onClick={onNavigate}>
+            <BookOpen size={16} />
+            Trang chủ
           </NavLink>
-        ))}
-        <NavLink to="/vocab" className={linkClass} onClick={onNavigate}>
-          <Languages size={16} />
-          Học từ
-        </NavLink>
-        <NavLink to="/write" className={linkClass} onClick={onNavigate}>
-          <PenLine size={16} />
-          Luyện viết
-        </NavLink>
-        <NavLink to="/recognize" className={linkClass} onClick={onNavigate}>
-          <ScanSearch size={16} />
-          Nhận diện chữ
-        </NavLink>
-        <NavLink to="/translate" className={linkClass} onClick={onNavigate}>
-          <ArrowLeftRight size={16} />
-          Luyện dịch
-        </NavLink>
-
-        {bookId && (
-          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
-            {book.title}
-          </p>
-        )}
-        {isVocab && (
-          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+          {BOOK_LIST.map((b) => (
+            <NavLink
+              key={b.id}
+              to={bookHref(b.id)}
+              className={() => linkClass({ isActive: bookId === b.id })}
+              onClick={onNavigate}
+            >
+              {b.id === 'textbook' ? <BookOpen size={16} /> : <ClipboardList size={16} />}
+              {b.shortTitle}
+            </NavLink>
+          ))}
+          <NavLink to="/vocab" className={linkClass} onClick={onNavigate}>
+            <Languages size={16} />
             Học từ
-          </p>
-        )}
-        {isWrite && (
-          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+          </NavLink>
+          <NavLink to="/write" className={linkClass} onClick={onNavigate}>
+            <PenLine size={16} />
             Luyện viết
-          </p>
-        )}
-        {isRecognize && (
-          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+          </NavLink>
+          <NavLink to="/recognize" className={linkClass} onClick={onNavigate}>
+            <ScanSearch size={16} />
             Nhận diện chữ
-          </p>
-        )}
-        {isTranslate && (
-          <p className="mb-1.5 mt-4 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+          </NavLink>
+          <NavLink to="/translate" className={linkClass} onClick={onNavigate}>
+            <ArrowLeftRight size={16} />
             Luyện dịch
-          </p>
-        )}
+          </NavLink>
+        </div>
 
-        {isVocab ? (
-          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
-            HSK 1, HSK 2 và tên quốc gia — bấm một từ để xem chữ Hán, nét viết và pinyin.
-          </p>
-        ) : isWrite ? (
-          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
-            Viết chữ Hán trên khung — app nhận diện rồi hiện pinyin và nghĩa tiếng Việt.
-          </p>
-        ) : isRecognize ? (
-          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
-            Nhìn chữ Hán, chọn nghĩa tiếng Việt. Chữ hay sai sẽ hiện lại nhiều hơn.
-          </p>
-        ) : isTranslate ? (
-          <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
-            Đọc câu tiếng Việt, gõ tiếng Trung. Sai mới hiện công thức để nhớ.
-          </p>
-        ) : bookId ? (
-          <div className="space-y-px">
-            {pages.map((pageNum) => {
-              const hasAudio = pageHasAudio(bookId, pageNum)
-              const isActive = currentPage === pageNum
+        {bookId ? (
+          <div className="flex min-h-0 flex-1 flex-col px-2 pb-2">
+            <p className="mb-1.5 shrink-0 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+              {book.title}
+            </p>
+            <div className="min-h-0 flex-1 space-y-px overflow-y-auto">
+              {pages.map((pageNum) => {
+                const hasAudio = pageHasAudio(bookId, pageNum)
+                const isActive = currentPage === pageNum
 
-              return (
-                <NavLink
-                  key={pageNum}
-                  to={`/read/${bookId}/${pageNum}`}
-                  className={linkClass}
-                  onClick={onNavigate}
-                  ref={isActive ? activeRef : undefined}
-                >
-                  <span
-                    className={`w-8 shrink-0 text-right font-mono text-xs tabular-nums ${
-                      isActive ? 'text-teal-100' : 'text-slate-400'
-                    }`}
+                return (
+                  <NavLink
+                    key={pageNum}
+                    to={`/read/${bookId}/${pageNum}`}
+                    className={linkClass}
+                    onClick={onNavigate}
+                    ref={isActive ? activeRef : undefined}
                   >
-                    {pageNum}
-                  </span>
-                  <span className="flex-1 truncate">Trang {pageNum}</span>
-                  {hasAudio && (
-                    <Volume2
-                      size={13}
-                      className={isActive ? 'text-teal-200' : 'text-teal-500 opacity-70'}
-                    />
-                  )}
-                </NavLink>
-              )
-            })}
+                 
+                    <span className="flex-1 truncate">Trang {pageNum}</span>
+                    {hasAudio && (
+                      <Volume2
+                        size={13}
+                        className={isActive ? 'text-teal-200' : 'text-teal-500 opacity-70'}
+                      />
+                    )}
+                  </NavLink>
+                )
+              })}
+            </div>
           </div>
-        ) : null}
+        ) : (
+          <div className="shrink-0 px-2 pb-2">
+            {isVocab && (
+              <>
+                <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Học từ
+                </p>
+                <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+                  HSK 1, HSK 2 và tên quốc gia — bấm một từ để xem chữ Hán, nét viết và pinyin.
+                </p>
+              </>
+            )}
+            {isWrite && (
+              <>
+                <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Luyện viết
+                </p>
+                <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+                  Viết chữ Hán trên khung — app nhận diện rồi hiện pinyin và nghĩa tiếng Việt.
+                </p>
+              </>
+            )}
+            {isRecognize && (
+              <>
+                <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Nhận diện chữ
+                </p>
+                <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+                  Nhìn chữ Hán, chọn nghĩa tiếng Việt. Chữ hay sai sẽ hiện lại nhiều hơn.
+                </p>
+              </>
+            )}
+            {isTranslate && (
+              <>
+                <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+                  Luyện dịch
+                </p>
+                <p className="px-3 py-2 text-sm leading-relaxed text-slate-500">
+                  Đọc câu tiếng Việt, gõ tiếng Trung. Sai mới hiện công thức để nhớ.
+                </p>
+              </>
+            )}
+          </div>
+        )}
       </nav>
     </div>
   )

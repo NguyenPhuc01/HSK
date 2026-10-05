@@ -114,4 +114,21 @@ export const RECOGNIZE_VOCAB = [
   { id: 'erzi', hanzi: '儿子', pinyin: 'érzi', meaningVi: 'con trai' },
   { id: 'yiyuan', hanzi: '医院', pinyin: 'yīyuàn', meaningVi: 'bệnh viện' },
   { id: 'yisheng', hanzi: '医生', pinyin: 'yīshēng', meaningVi: 'bác sĩ' },
+
+  // Vị trí / đồ vật / khả năng
+  { id: 'zhuozi', hanzi: '桌子', pinyin: 'zhuōzi', meaningVi: 'bàn' },
+  { id: 'shang', hanzi: '上', pinyin: 'shàng', meaningVi: 'trên' },
+  { id: 'diannao', hanzi: '电脑', pinyin: 'diànnǎo', meaningVi: 'máy tính' },
+  { id: 'he2', hanzi: '和', pinyin: 'hé', meaningVi: 'và, cùng' },
+  { id: 'ben', hanzi: '本', pinyin: 'běn', meaningVi: 'lượng từ (sách)' },
+  { id: 'li', hanzi: '里', pinyin: 'lǐ', meaningVi: 'trong, bên trong' },
+  { id: 'qianmian', hanzi: '前面', pinyin: 'qiánmiàn', meaningVi: 'phía trước' },
+  { id: 'houmian', hanzi: '后面', pinyin: 'hòumiàn', meaningVi: 'phía sau' },
+  { id: 'zuobian', hanzi: '左边', pinyin: 'zuǒbiān', meaningVi: 'bên trái' },
+  { id: 'youbian', hanzi: '右边', pinyin: 'yòubiān', meaningVi: 'bên phải' },
+  { id: 'zher', hanzi: '这儿', pinyin: 'zhèr', meaningVi: 'chỗ này' },
+  { id: 'meiyou', hanzi: '没有', pinyin: 'méiyǒu', meaningVi: 'không có' },
+  { id: 'mei2', hanzi: '没', pinyin: 'méi', meaningVi: 'không; chưa' },
+  { id: 'neng', hanzi: '能', pinyin: 'néng', meaningVi: 'có thể' },
+  { id: 'zuo-sit', hanzi: '坐', pinyin: 'zuò', meaningVi: 'ngồi' },
 ]

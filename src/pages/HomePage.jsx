@@ -93,7 +93,7 @@ function VocabHomeCard() {
   const lastWord = lastHanzi ? getVocabByHanzi(lastHanzi) : null
 
   return (
-    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
+    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
           <Languages size={18} />
@@ -109,7 +109,7 @@ function VocabHomeCard() {
         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Nét viết + TTS</span>
       </div>
 
-      <div className="mt-auto flex flex-col gap-2 sm:flex-row">
+      <div className="mt-auto flex flex-col gap-2">
         <Link
           to="/vocab"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
@@ -120,7 +120,7 @@ function VocabHomeCard() {
         {lastWord && (
           <Link
             to={`/vocab/${encodeURIComponent(lastWord.hanzi)}`}
-            className="inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-medium text-teal-700 hover:bg-teal-50"
+            className="text-center text-xs text-slate-500 hover:text-teal-600"
           >
             Tiếp tục {lastWord.hanzi}
           </Link>
@@ -132,7 +132,7 @@ function VocabHomeCard() {
 
 function WriteHomeCard() {
   return (
-    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
+    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
           <PenLine size={18} />
@@ -148,7 +148,7 @@ function WriteHomeCard() {
         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Cảm ứng</span>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <Link
           to="/write"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
@@ -163,7 +163,7 @@ function WriteHomeCard() {
 
 function RecognizeHomeCard() {
   return (
-    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
+    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
           <ScanSearch size={18} />
@@ -179,7 +179,7 @@ function RecognizeHomeCard() {
         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Ôn chữ yếu</span>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <Link
           to="/recognize"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"
@@ -194,7 +194,7 @@ function RecognizeHomeCard() {
 
 function TranslateHomeCard() {
   return (
-    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:col-span-2">
+    <section className="flex flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
       <div className="mb-3 flex items-center gap-2">
         <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-100 text-teal-700">
           <ArrowLeftRight size={18} />
@@ -210,7 +210,7 @@ function TranslateHomeCard() {
         <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Sai mới hiện gợi ý</span>
       </div>
 
-      <div className="mt-auto">
+      <div className="mt-auto flex flex-col gap-2">
         <Link
           to="/translate"
           className="inline-flex items-center justify-center gap-2 rounded-full bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-teal-700"

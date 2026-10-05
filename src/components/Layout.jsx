@@ -14,7 +14,7 @@ export default function Layout() {
   return (
     <div className="flex h-dvh overflow-hidden bg-slate-100">
       {/* Desktop sidebar */}
-      <aside className="hidden h-full w-64 shrink-0 border-r border-slate-200 bg-white lg:block xl:w-72">
+      <aside className="hidden h-full min-h-0 w-64 shrink-0 border-r border-slate-200 bg-white lg:block xl:w-72">
         <Sidebar />
       </aside>
 
@@ -27,7 +27,7 @@ export default function Layout() {
             onClick={close}
             aria-label="Đóng menu"
           />
-          <aside className="relative h-full w-72 max-w-[85vw] bg-white shadow-xl">
+          <aside className="relative h-full min-h-0 w-72 max-w-[85vw] bg-white shadow-xl">
             <Sidebar onNavigate={close} />
           </aside>
         </div>
