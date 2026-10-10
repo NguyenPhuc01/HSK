@@ -131,4 +131,12 @@ export const RECOGNIZE_VOCAB = [
   { id: 'mei2', hanzi: '没', pinyin: 'méi', meaningVi: 'không; chưa' },
   { id: 'neng', hanzi: '能', pinyin: 'néng', meaningVi: 'có thể' },
   { id: 'zuo-sit', hanzi: '坐', pinyin: 'zuò', meaningVi: 'ngồi' },
+
+  // Đảo trật tự: với ai / cho ai / nội dung câu mẫu
+  { id: 'gen', hanzi: '跟', pinyin: 'gēn', meaningVi: 'với, theo' },
+  { id: 'yiqi', hanzi: '一起', pinyin: 'yìqǐ', meaningVi: 'cùng nhau' },
+  { id: 'gei', hanzi: '给', pinyin: 'gěi', meaningVi: 'cho; đưa cho' },
+  { id: 'dianying', hanzi: '电影', pinyin: 'diànyǐng', meaningVi: 'phim' },
+  { id: 'kafei', hanzi: '咖啡', pinyin: 'kāfēi', meaningVi: 'cà phê' },
+  { id: 'fan', hanzi: '饭', pinyin: 'fàn', meaningVi: 'cơm, bữa ăn' },
 ]

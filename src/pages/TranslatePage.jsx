@@ -163,8 +163,16 @@ export default function TranslatePage() {
                 <p className="mt-2">
                   Đáp án: <span className="font-medium text-rose-950">{entry.answers[0]}</span>
                 </p>
+                {entry.pattern && (
+                  <p className="mt-2">
+                    Công thức chung:{' '}
+                    <span className="font-medium text-rose-950">
+                      {annotateFormula(entry.pattern)}
+                    </span>
+                  </p>
+                )}
                 <p className="mt-2">
-                  Công thức:{' '}
+                  Gợi ý cấu trúc:{' '}
                   <span className="font-medium text-rose-950">
                     {annotateFormula(entry.formula)}
                   </span>

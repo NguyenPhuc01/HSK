@@ -9,6 +9,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Xin hỏi, bạn tên gì?',
     answers: ['请问你叫什么名字', '请问，你叫什么名字', '请问你叫什么名字？', '请问，你叫什么名字？'],
     formula: '请问 + S + 叫 + 什么 + 名字？',
+    pattern: '请问 + S + 叫 + 什么 + 名字？',
     explainVi: '请问 mở đầu lịch sự; sau đó hỏi tên.',
   },
   {
@@ -16,6 +17,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Xin hỏi, cái này bao nhiêu tiền?',
     answers: ['请问这个多少钱', '请问，这个多少钱', '请问这个多少钱？', '请问，这个多少钱？'],
     formula: '请问 + 这个 + 多少 + 钱？',
+    pattern: '请问 + 这个/那 + 多少 + 钱？',
     explainVi: 'Hỏi giá: 多少钱.',
   },
   {
@@ -23,6 +25,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn là người nước nào?',
     answers: ['你是哪国人', '你是哪国人？'],
     formula: 'S + 是 + 哪 + 国 + 人？',
+    pattern: 'S + 是 + 哪国人？',
     explainVi: '哪国人 = người nước nào.',
   },
   {
@@ -30,6 +33,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy có phải bác sĩ không?',
     answers: ['他是医生吗', '他是医生吗？'],
     formula: 'S + 是 + nghề + 吗？',
+    pattern: 'S + 是 + nghề + 吗？',
     explainVi: 'Câu 是 + 吗 để hỏi phải/không.',
   },
 
@@ -39,6 +43,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi muốn uống trà.',
     answers: ['我想喝茶', '我想喝茶。'],
     formula: 'S + 想 + 动词 + tân ngữ',
+    pattern: 'S + 想 + V + O',
     explainVi: '想 = muốn làm gì; theo sau là động từ.',
   },
   {
@@ -46,6 +51,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn muốn ăn cơm không?',
     answers: ['你想吃米饭吗', '你想吃米饭吗？'],
     formula: 'S + 想 + 吃 + đồ ăn + 吗？',
+    pattern: 'S + 想 + V + O + 吗？',
     explainVi: 'Hỏi ý muốn: 想 + động từ + 吗.',
   },
   {
@@ -53,6 +59,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Các bạn muốn ăn cơm trưa không?',
     answers: ['你们想吃午饭吗', '你们想吃午饭吗？'],
     formula: '你们 + 想 + 吃 + 午饭 + 吗？',
+    pattern: 'S + 想 + V + O + 吗？',
     explainVi: '午饭 = bữa trưa.',
   },
   {
@@ -60,6 +67,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi biết nói tiếng Trung.',
     answers: ['我会说汉语', '我会说汉语。'],
     formula: 'S + 会 + 动词 + tân ngữ',
+    pattern: 'S + 会 + V + O',
     explainVi: '会 = biết kỹ năng.',
   },
   {
@@ -67,6 +75,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cô ấy biết viết không?',
     answers: ['她会写吗', '她会写吗？'],
     formula: 'S + 会 + 动词 + 吗？',
+    pattern: 'S + 会 + V + 吗？',
     explainVi: 'Hỏi khả năng với 吗.',
   },
   {
@@ -74,6 +83,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Buổi sáng sớm tôi uống trà.',
     answers: ['早上我喝茶', '我早上喝茶', '早上我喝茶。', '我早上喝茶。'],
     formula: 'Thời gian + S + 喝 + đồ uống',
+    pattern: 'Thời gian + S + V + O',
     explainVi: 'Thời gian có thể đứng trước chủ ngữ hoặc sau chủ ngữ.',
   },
   {
@@ -81,6 +91,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Buổi trưa tôi ăn cơm.',
     answers: ['中午我吃米饭', '我中午吃米饭', '中午我吃米饭。', '我中午吃米饭。'],
     formula: 'Thời gian + S + 吃 + 米饭',
+    pattern: 'Thời gian + S + V + O',
     explainVi: '中午 = buổi trưa; 米饭 = cơm.',
   },
   {
@@ -88,6 +99,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Buổi tối tôi ăn cơm tối.',
     answers: ['晚上我吃晚饭', '我晚上吃晚饭', '晚上我吃晚饭。', '我晚上吃晚饭。'],
     formula: '晚上 + S + 吃 + 晚饭',
+    pattern: 'Thời gian + S + V + O',
     explainVi: '晚饭 = bữa tối.',
   },
 
@@ -97,6 +109,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Chiều nay tôi đi trường.',
     answers: ['今天下午我去学校', '我今天下午去学校', '今天下午我去学校。', '我今天下午去学校。'],
     formula: '今天 + 下午 + S + 去 + nơi',
+    pattern: 'Thời gian + S + 去 + nơi',
     explainVi: 'Hai lớp thời gian: hôm nay + buổi chiều, rồi mới động từ.',
   },
   {
@@ -104,6 +117,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Sáng mai đi bệnh viện.',
     answers: ['明天上午去医院', '明天上午去医院。'],
     formula: '明天 + 上午 + 去 + 医院',
+    pattern: 'Thời gian + S + 去 + nơi',
     explainVi: 'Thời gian đứng trước 去 + địa điểm.',
   },
   {
@@ -111,6 +125,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn đi đâu?',
     answers: ['你去哪儿', '你去哪儿？'],
     formula: 'S + 去 + 哪儿？',
+    pattern: 'S + 去 + 哪儿？',
     explainVi: '哪儿 hỏi nơi chốn.',
   },
   {
@@ -118,6 +133,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Hôm qua tôi đi cửa hàng.',
     answers: ['昨天我去商店', '我昨天去商店', '昨天我去商店。', '我昨天去商店。'],
     formula: '昨天 + S + 去 + 商店',
+    pattern: 'Thời gian + S + 去 + nơi',
     explainVi: '商店 = cửa hàng.',
   },
 
@@ -127,6 +143,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Mèo con ở chỗ đó.',
     answers: ['小猫在那儿', '小猫在那儿。'],
     formula: 'S + 在 + 那儿',
+    pattern: 'S + 在 + nơi',
     explainVi: '在 chỉ vị trí; 那儿 = chỗ đó.',
   },
   {
@@ -134,6 +151,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Con chó ở dưới ghế.',
     answers: ['狗在椅子下面', '狗在椅子下面。'],
     formula: 'S + 在 + nơi + 下面',
+    pattern: 'S + 在 + nơi + phương vị',
     explainVi: 'A 在 B 下面 = A ở dưới B.',
   },
   {
@@ -141,6 +159,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái cốc ở trên ghế.',
     answers: ['杯子在椅子上面', '杯子在椅子上面。'],
     formula: 'S + 在 + nơi + 上面',
+    pattern: 'S + 在 + nơi + phương vị',
     explainVi: '上面 = phía trên.',
   },
   {
@@ -148,6 +167,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy ở đâu?',
     answers: ['他在哪儿', '他在哪儿？'],
     formula: 'S + 在 + 哪儿？',
+    pattern: 'S + 在 + 哪儿？',
     explainVi: 'Hỏi vị trí người/vật: 在哪儿.',
   },
   {
@@ -155,6 +175,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Giáo viên ở trường học.',
     answers: ['老师在学校', '老师在学校。'],
     formula: 'S + 在 + nơi',
+    pattern: 'S + 在 + nơi',
     explainVi: '在 + địa điểm = đang ở đâu.',
   },
 
@@ -164,6 +185,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi muốn mua cái cốc.',
     answers: ['我想买杯子', '我想买杯子。'],
     formula: 'S + 想 + 买 + đồ',
+    pattern: 'S + 想 + V + O',
     explainVi: '买 = mua (khác 卖 = bán).',
   },
   {
@@ -171,6 +193,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cửa hàng có bán trà không?',
     answers: ['商店卖茶吗', '商店卖茶吗？'],
     formula: 'S + 卖 + đồ + 吗？',
+    pattern: 'S + 卖 + O + 吗？',
     explainVi: '卖 = bán.',
   },
   {
@@ -178,6 +201,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái cốc này mười tệ.',
     answers: ['这个杯子十块', '这个杯子十块。', '这个杯子十块钱', '这个杯子十块钱。'],
     formula: '这个 + đồ + số + 块',
+    pattern: 'N + số + 块',
     explainVi: 'Nói giá: số + 块 (có thể thêm 钱).',
   },
   {
@@ -185,6 +209,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái kia bao nhiêu tiền?',
     answers: ['那多少钱', '那个多少钱', '那多少钱？', '那个多少钱？'],
     formula: '那 / 那个 + 多少 + 钱？',
+    pattern: '这/那 + 多少 + 钱？',
     explainVi: '那 = kia; hỏi giá tương tự 这个多少钱.',
   },
 
@@ -194,6 +219,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi có con trai.',
     answers: ['我有儿子', '我有儿子。'],
     formula: 'S + 有 + danh từ',
+    pattern: 'S + 有 + N',
     explainVi: '有 = có; không dùng 是.',
   },
   {
@@ -201,6 +227,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cô ấy có con gái.',
     answers: ['她有女儿', '她有女儿。'],
     formula: 'S + 有 + danh từ',
+    pattern: 'S + 有 + N',
     explainVi: '女儿 = con gái.',
   },
   {
@@ -208,6 +235,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Nhà tôi có ba người.',
     answers: ['我家有三口人', '我家有三口人。'],
     formula: 'S + 的/家 + 有 + số + 口 + 人',
+    pattern: 'S + 有 + số + 口 + 人',
     explainVi: '口 là lượng từ đếm người trong nhà.',
   },
   {
@@ -215,6 +243,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Con trai tôi năm tuổi.',
     answers: ['我儿子五岁', '我儿子五岁了', '我儿子五岁。', '我儿子五岁了。'],
     formula: 'S + số + 岁（了）',
+    pattern: 'S + số + 岁',
     explainVi: 'Nói tuổi: số + 岁.',
   },
   {
@@ -222,6 +251,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Con gái cô ấy mấy tuổi?',
     answers: ['她女儿几岁', '她女儿几岁了', '她女儿几岁？', '她女儿几岁了？'],
     formula: 'S + 的/danh xưng + 几 + 岁？',
+    pattern: 'S + 几 + 岁？',
     explainVi: 'Hỏi tuổi trẻ: 几岁 (không dùng 多大).',
   },
   {
@@ -229,6 +259,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Mẹ tôi là giáo viên.',
     answers: ['我妈是老师', '我妈是老师。', '我的妈是老师', '我的妈是老师。'],
     formula: 'S + 是 + nghề',
+    pattern: 'S + 是 + N',
     explainVi: 'Câu giới thiệu nghề nghiệp người thân.',
   },
   {
@@ -236,6 +267,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy làm việc ở bệnh viện.',
     answers: ['他在医院工作', '他在医院工作。'],
     formula: 'S + 在 + nơi + 工作',
+    pattern: 'S + 在 + nơi + V',
     explainVi: '在…工作 = làm việc ở đâu.',
   },
 
@@ -245,6 +277,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Đây là sách của tôi.',
     answers: ['这是我的书', '这是我的书。', '这个是我的书', '这个是我的书。'],
     formula: '这 + 是 + S + 的 + danh từ',
+    pattern: '这/那 + 是 + S + 的 + N',
     explainVi: '的 chỉ sở hữu.',
   },
   {
@@ -252,6 +285,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái cốc kia là của ai?',
     answers: ['那是谁的杯子', '那是谁的杯子？', '那个是谁的杯子', '那个是谁的杯子？'],
     formula: '那 + 是 + 谁 + 的 + danh từ？',
+    pattern: '这/那 + 是 + 谁的 + N？',
     explainVi: '谁的 = của ai.',
   },
   {
@@ -259,6 +293,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi muốn xem sách.',
     answers: ['我想看书', '我想看书。'],
     formula: 'S + 想 + 看 + tân ngữ',
+    pattern: 'S + 想 + V + O',
     explainVi: '想 + 看 = muốn xem/đọc.',
   },
   {
@@ -266,6 +301,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Buổi chiều tôi xem sách.',
     answers: ['下午我看书', '我下午看书', '下午我看书。', '我下午看书。'],
     formula: '下午 + S + 看 + 书',
+    pattern: 'Thời gian + S + V + O',
     explainVi: '下午 = buổi chiều.',
   },
   {
@@ -273,6 +309,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn của bạn ở đâu?',
     answers: ['你朋友在哪儿', '你的朋友在哪儿', '你朋友在哪儿？', '你的朋友在哪儿？'],
     formula: 'S + (的) + 朋友 + 在 + 哪儿？',
+    pattern: 'S + 在 + 哪儿？',
     explainVi: '的 đôi khi lược bỏ sau đại từ.',
   },
   {
@@ -280,6 +317,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cô ấy muốn đi cửa hàng mua trà.',
     answers: ['她想去商店买茶', '她想去商店买茶。'],
     formula: 'S + 想 + 去 + nơi + 买 + đồ',
+    pattern: 'S + 想 + 去 + nơi + V + O',
     explainVi: 'Hai động từ nối tiếp: đi đâu rồi mua gì.',
   },
 
@@ -289,6 +327,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Ngài khỏe không?',
     answers: ['您好吗', '您好吗？'],
     formula: '您 + 好 + 吗？',
+    pattern: 'S + 好 + 吗？',
     explainVi: '您 lịch sự hơn 你.',
   },
   {
@@ -296,6 +335,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi rất khỏe, còn bạn thì sao?',
     answers: ['我很好你呢', '我很好，你呢', '我很好你呢？', '我很好，你呢？'],
     formula: 'S + 很 + 好，S + 呢？',
+    pattern: 'S + 很 + Adj，S + 呢？',
     explainVi: '呢 hỏi ngược lại người kia.',
   },
   {
@@ -303,6 +343,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cảm ơn ngài.',
     answers: ['谢谢您', '谢谢您。'],
     formula: '谢谢 + 您',
+    pattern: '谢谢 + người',
     explainVi: 'Cảm ơn lịch sự: 谢谢您.',
   },
   {
@@ -310,6 +351,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Xin lỗi. — Không sao.',
     answers: ['对不起没关系', '对不起，没关系', '对不起。没关系。', '对不起，没关系。'],
     formula: '对不起 → 没关系',
+    pattern: '对不起 → 没关系',
     explainVi: 'Xin lỗi rồi đáp không sao.',
   },
   {
@@ -317,6 +359,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cảm ơn. — Không khách sáo.',
     answers: ['谢谢不客气', '谢谢，不客气', '谢谢。不客气。', '谢谢，不客气。'],
     formula: '谢谢 → 不客气',
+    pattern: '谢谢 → 不客气',
     explainVi: 'Cảm ơn rồi đáp không khách sáo.',
   },
   {
@@ -324,6 +367,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tạm biệt các bạn.',
     answers: ['再见你们', '你们再见', '再见，你们', '再见你们。', '你们再见。'],
     formula: '再见 / 你们 + 再见',
+    pattern: '再见',
     explainVi: 'Chào tạm biệt; có thể thêm 你们.',
   },
   {
@@ -331,6 +375,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cô ấy là học sinh.',
     answers: ['她是学生', '她是学生。'],
     formula: 'S + 是 + 学生',
+    pattern: 'S + 是 + N',
     explainVi: '学生 = học sinh.',
   },
   {
@@ -338,6 +383,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy là bạn học của tôi.',
     answers: ['他是我同学', '他是我的同学', '他是我同学。', '他是我的同学。'],
     formula: 'S + 是 + (我的) + 同学',
+    pattern: 'S + 是 + N',
     explainVi: '同学 = bạn cùng lớp/học.',
   },
   {
@@ -345,6 +391,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Năm nay bạn bao nhiêu tuổi?',
     answers: ['今年你多大', '你今年多大', '今年你多大了', '你今年多大了', '今年你多大？', '你今年多大？', '今年你多大了？', '你今年多大了？'],
     formula: '今年 + S + 多大（了）？',
+    pattern: 'Thời gian + S + 多大？',
     explainVi: '多大 hỏi tuổi (người lớn hơn một chút).',
   },
   {
@@ -352,6 +399,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Hôm nay thứ mấy?',
     answers: ['今天星期几', '今天星期几？'],
     formula: '今天 + 星期 + 几？',
+    pattern: '今天 + 星期 + 几？',
     explainVi: '星期几 hỏi thứ trong tuần.',
   },
   {
@@ -359,6 +407,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Hôm nay ngày mấy tháng ba?',
     answers: ['今天三月几号', '今天是三月几号', '今天三月几号？', '今天是三月几号？'],
     formula: '今天 + (是) + tháng + 月 + 几 + 号？',
+    pattern: '今天 + tháng + 月 + 几 + 号？',
     explainVi: '几号 hỏi ngày; tháng + 月.',
   },
   {
@@ -366,6 +415,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Hôm nay ngày mồng tám.',
     answers: ['今天八号', '今天是八号', '今天八号。', '今天是八号。'],
     formula: '今天 + (是) + số + 号',
+    pattern: '今天 + số + 号',
     explainVi: 'Nói ngày: số + 号.',
   },
   {
@@ -373,6 +423,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn đi trường như thế nào?',
     answers: ['你怎样去学校', '你怎样去学校？'],
     formula: 'S + 怎样 + 去 + nơi？',
+    pattern: 'S + 怎样 + 去 + nơi？',
     explainVi: '怎样 hỏi cách thức.',
   },
   {
@@ -380,6 +431,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi muốn ăn rau/món.',
     answers: ['我想吃菜', '我想吃菜。'],
     formula: 'S + 想 + 吃 + 菜',
+    pattern: 'S + 想 + V + O',
     explainVi: '菜 = món ăn, rau.',
   },
   {
@@ -387,6 +439,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Quyển sách này rất tốt.',
     answers: ['这个书很好', '这书很好', '这个书很好。', '这书很好。'],
     formula: '这 / 这个 + 书 + 很 + 好',
+    pattern: 'N + 很 + Adj',
     explainVi: 'Tính từ vị ngữ thường có 很.',
   },
   {
@@ -394,6 +447,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Mẹ làm cơm tối.',
     answers: ['妈做晚饭', '我妈做晚饭', '妈做晚饭。', '我妈做晚饭。'],
     formula: 'S + 做 + 晚饭',
+    pattern: 'S + 做 + O',
     explainVi: '做 = làm/nấu.',
   },
   {
@@ -401,6 +455,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy biết nói chuyện / biết nói.',
     answers: ['他会说话', '他会说话。'],
     formula: 'S + 会 + 说话',
+    pattern: 'S + 会 + V + O',
     explainVi: '说话 = nói chuyện (说 + 话).',
   },
   {
@@ -408,6 +463,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Buổi sáng sớm tôi ăn sáng.',
     answers: ['早上我吃早饭', '我早上吃早饭', '早上我吃早饭。', '我早上吃早饭。'],
     formula: '早上 + S + 吃 + 早饭',
+    pattern: 'Thời gian + S + V + O',
     explainVi: '早饭 = bữa sáng.',
   },
   {
@@ -415,6 +471,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Con trai cô ấy bảy tuổi.',
     answers: ['她儿子七岁', '她儿子七岁了', '她儿子七岁。', '她儿子七岁了。'],
     formula: 'S + số + 岁（了）',
+    pattern: 'S + số + 岁',
     explainVi: 'Dùng số đếm tuổi.',
   },
   {
@@ -422,6 +479,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái cốc này chín tệ.',
     answers: ['这个杯子九块', '这个杯子九块。', '这个杯子九块钱', '这个杯子九块钱。'],
     formula: '这个 + đồ + số + 块',
+    pattern: 'N + số + 块',
     explainVi: 'Ôn số + 块 nói giá.',
   },
   {
@@ -429,6 +487,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cái cốc kia bốn tệ.',
     answers: ['那杯子四块', '那个杯子四块', '那杯子四块。', '那个杯子四块。', '那杯子四块钱', '那个杯子四块钱'],
     formula: '那 / 那个 + đồ + số + 块',
+    pattern: 'N + số + 块',
     explainVi: 'Ôn 那 + số đếm tiền.',
   },
   {
@@ -436,6 +495,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Trà sáu tệ.',
     answers: ['茶六块', '茶六块。', '茶六块钱', '茶六块钱。'],
     formula: 'Đồ + số + 块',
+    pattern: 'N + số + 块',
     explainVi: 'Nói giá ngắn: đồ + số + 块.',
   },
   {
@@ -443,6 +503,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Hôm nay mồng một.',
     answers: ['今天一号', '今天是一号', '今天一号。', '今天是一号。'],
     formula: '今天 + (是) + 一 + 号',
+    pattern: '今天 + số + 号',
     explainVi: 'Ôn số 一 với 号.',
   },
   {
@@ -450,6 +511,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Em ấy hai tuổi.',
     answers: ['她二岁', '他二岁', '她二岁了', '他二岁了', '她二岁。', '他二岁。'],
     formula: 'S + 二 + 岁',
+    pattern: 'S + số + 岁',
     explainVi: 'Tuổi nhỏ dùng số + 岁.',
   },
   {
@@ -457,6 +519,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Con trai tôi tám tuổi.',
     answers: ['我儿子八岁', '我儿子八岁了', '我儿子八岁。', '我儿子八岁了。'],
     formula: 'S + 八 + 岁（了）',
+    pattern: 'S + số + 岁',
     explainVi: 'Ôn số 八.',
   },
 
@@ -466,6 +529,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Máy tính ở trên bàn.',
     answers: ['电脑在桌子上', '电脑在桌子上。'],
     formula: 'S + 在 + nơi + 上',
+    pattern: 'S + 在 + nơi + phương vị',
     explainVi: 'A 在 B 上 = A ở trên B.',
   },
   {
@@ -473,6 +537,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Trên bàn có sách và cốc.',
     answers: ['桌子上有书和杯子', '桌子上有书和杯子。'],
     formula: 'nơi + 上 + 有 + A + 和 + B',
+    pattern: 'nơi + phương vị + 有 + N',
     explainVi: '和 = và; nối hai danh từ.',
   },
   {
@@ -480,6 +545,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi có ba quyển sách.',
     answers: ['我有三本书', '我有三本书。'],
     formula: 'S + 有 + số + 本 + 书',
+    pattern: 'S + 有 + số + lượng từ + N',
     explainVi: '本 là lượng từ cho sách.',
   },
   {
@@ -487,6 +553,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Trong trường có máy tính.',
     answers: ['学校里有电脑', '学校里有电脑。'],
     formula: 'nơi + 里 + 有 + danh từ',
+    pattern: 'nơi + 里 + 有 + N',
     explainVi: '里 = bên trong.',
   },
   {
@@ -494,6 +561,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Giáo viên ở phía trước.',
     answers: ['老师在前面', '老师在前面。'],
     formula: 'S + 在 + 前面',
+    pattern: 'S + 在 + nơi',
     explainVi: '前面 = phía trước.',
   },
   {
@@ -501,6 +569,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Mèo con ở phía sau.',
     answers: ['小猫在后面', '小猫在后面。'],
     formula: 'S + 在 + 后面',
+    pattern: 'S + 在 + nơi',
     explainVi: '后面 = phía sau.',
   },
   {
@@ -508,6 +577,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Anh ấy ở bên trái.',
     answers: ['他在左边', '他在左边。'],
     formula: 'S + 在 + 左边',
+    pattern: 'S + 在 + nơi',
     explainVi: '左边 = bên trái.',
   },
   {
@@ -515,6 +585,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi ở bên phải.',
     answers: ['我在右边', '我在右边。'],
     formula: 'S + 在 + 右边',
+    pattern: 'S + 在 + nơi',
     explainVi: '右边 = bên phải.',
   },
   {
@@ -522,6 +593,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Mời ngồi chỗ này.',
     answers: ['请坐这儿', '请坐这儿。', '请你坐这儿', '请你坐这儿。'],
     formula: '请 + 坐 + 这儿',
+    pattern: '请 + V + nơi',
     explainVi: '坐 = ngồi; 这儿 = chỗ này.',
   },
   {
@@ -529,6 +601,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Tôi có thể ngồi chỗ này không?',
     answers: ['我能坐这儿吗', '我能坐这儿吗？'],
     formula: 'S + 能 + 动词 + 这儿 + 吗？',
+    pattern: 'S + 能 + V + 吗？',
     explainVi: '能 = có thể (khả năng/được phép).',
   },
   {
@@ -536,6 +609,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Chỗ này không có máy tính.',
     answers: ['这儿没有电脑', '这儿没有电脑。'],
     formula: 'Địa điểm + 没有 + danh từ',
+    pattern: 'nơi + 没有 + N',
     explainVi: '没有 = không có (phủ định của 有).',
   },
   {
@@ -543,6 +617,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Phía trước không có người.',
     answers: ['前面没有人', '前面没有人。'],
     formula: 'Vị trí + 没有 + danh từ',
+    pattern: 'nơi + 没有 + N',
     explainVi: 'Phủ định tồn tại: 没有.',
   },
   {
@@ -550,6 +625,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Trên bàn không có sách.',
     answers: ['桌子上没有书', '桌子上没有书。'],
     formula: 'nơi + 上 + 没有 + danh từ',
+    pattern: 'nơi + 没有 + N',
     explainVi: 'Kết hợp vị trí 上 với 没有.',
   },
   {
@@ -557,6 +633,7 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Bạn có thể nói tiếng Trung không?',
     answers: ['你能说汉语吗', '你能说汉语吗？'],
     formula: 'S + 能 + 动词 + tân ngữ + 吗？',
+    pattern: 'S + 能 + V + O + 吗？',
     explainVi: '能 khác 会: nhấn mạnh có thể/được phép.',
   },
   {
@@ -564,6 +641,399 @@ export const TRANSLATE_SENTENCES = [
     vi: 'Cô ấy ngồi bên phải.',
     answers: ['她坐在右边', '她坐在右边。'],
     formula: 'S + 坐 + 在 + vị trí',
+    pattern: 'S + 坐 + 在 + nơi',
     explainVi: '坐在 + nơi = ngồi ở đâu.',
+  },
+
+  // ——— Đảo trật tự VI→ZH ———
+  // 1) Ở đâu trước → làm gì sau: S + 在 + nơi + V (+ O)
+  {
+    id: 'reorder-zai-jia-chifan',
+    vi: 'Tôi ăn cơm ở nhà.',
+    answers: ['我在家吃饭', '我在家吃米饭', '我在家吃饭。', '我在家吃米饭。'],
+    formula: 'S + 在 + 家 + 吃 + 饭/米饭',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: 'Địa điểm đứng trước động từ: không dịch xuôi “ăn cơm ở nhà”.',
+  },
+  {
+    id: 'reorder-zai-xuexiao-kanshu',
+    vi: 'Cô ấy xem sách ở trường.',
+    answers: ['她在学校看书', '她在学校看书。'],
+    formula: 'S + 在 + 学校 + 看 + 书',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: '在 + nơi rồi mới 看书.',
+  },
+  {
+    id: 'reorder-zai-shangdian-hecha',
+    vi: 'Anh ấy uống trà ở cửa hàng.',
+    answers: ['他在商店喝茶', '他在商店喝茶。'],
+    formula: 'S + 在 + 商店 + 喝 + 茶',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: 'Nơi chốn trước động từ 喝.',
+  },
+  {
+    id: 'reorder-zai-xuexiao-chi-wufan',
+    vi: 'Các bạn ăn cơm trưa ở trường.',
+    answers: ['你们在学校吃午饭', '你们在学校吃午饭。'],
+    formula: '你们 + 在 + 学校 + 吃 + 午饭',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: 'Ở đâu trước, ăn gì sau.',
+  },
+  {
+    id: 'reorder-ma-zai-jia-zuo-wanfan',
+    vi: 'Mẹ làm cơm tối ở nhà.',
+    answers: ['妈在家做晚饭', '我妈在家做晚饭', '妈在家做晚饭。', '我妈在家做晚饭。'],
+    formula: '妈 + 在 + 家 + 做 + 晚饭',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: '在家 đứng trước 做晚饭.',
+  },
+  {
+    id: 'reorder-zai-xuexiao-xue-hanyu',
+    vi: 'Anh ấy học tiếng Trung ở trường.',
+    answers: ['他在学校学汉语', '他在学校学汉语。'],
+    formula: 'S + 在 + 学校 + 学 + 汉语',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: 'Địa điểm học đứng trước động từ 学.',
+  },
+  {
+    id: 'reorder-zai-zher-kanshu',
+    vi: 'Tôi xem sách ở chỗ này.',
+    answers: ['我在这儿看书', '我在这儿看书。'],
+    formula: 'S + 在 + 这儿 + 看 + 书',
+    pattern: 'S + 在 + nơi + V + O',
+    explainVi: '这儿 là nơi; đặt trước 看书.',
+  },
+  {
+    id: 'reorder-zai-yiyuan-gongzuo',
+    vi: 'Tôi làm việc ở bệnh viện.',
+    answers: ['我在医院工作', '我在医院工作。'],
+    formula: 'S + 在 + 医院 + 工作',
+    pattern: 'S + 在 + nơi + V',
+    explainVi: '在医院 trước 工作 — khác tiếng Việt “làm việc ở…”.',
+  },
+
+  // 2) Khi nào trước → làm gì sau: (今天+) thời gian + S + V…
+  {
+    id: 'reorder-jintian-wanshang-kan-dianying',
+    vi: 'Tối nay tôi đi xem phim.',
+    answers: [
+      '今天晚上我去看电影',
+      '我今天晚上去看电影',
+      '今天晚上我去看电影。',
+      '我今天晚上去看电影。',
+    ],
+    formula: '今天晚上 + S + 去 + 看 + 电影',
+    pattern: 'Thời gian + S + 去 + V + O',
+    explainVi: 'Thời gian đứng trước hành động; 看电影 là cụm cố định.',
+  },
+  {
+    id: 'reorder-mingtian-qu-yiyuan',
+    vi: 'Ngày mai tôi đi bệnh viện.',
+    answers: ['明天我去医院', '我明天去医院', '明天我去医院。', '我明天去医院。'],
+    formula: '明天 + S + 去 + 医院',
+    pattern: 'Thời gian + S + 去 + nơi',
+    explainVi: 'Khi nào trước, đi đâu sau.',
+  },
+  {
+    id: 'reorder-jintian-xiawu-mai-beizi',
+    vi: 'Chiều nay cô ấy mua cái cốc.',
+    answers: [
+      '今天下午她买杯子',
+      '她今天下午买杯子',
+      '今天下午她买杯子。',
+      '她今天下午买杯子。',
+    ],
+    formula: '今天下午 + S + 买 + 杯子',
+    pattern: 'Thời gian + S + V + O',
+    explainVi: '今天下午 trước động từ 买.',
+  },
+  {
+    id: 'reorder-zuotian-chi-wanfan',
+    vi: 'Hôm qua tôi ăn cơm tối.',
+    answers: ['昨天我吃晚饭', '我昨天吃晚饭', '昨天我吃晚饭。', '我昨天吃晚饭。'],
+    formula: '昨天 + S + 吃 + 晚饭',
+    pattern: 'Thời gian + S + V + O',
+    explainVi: 'Thời gian trước 吃晚饭.',
+  },
+  {
+    id: 'reorder-mingtian-shangwu-qu-xuexiao',
+    vi: 'Sáng mai tôi đi trường.',
+    answers: [
+      '明天上午我去学校',
+      '我明天上午去学校',
+      '明天上午我去学校。',
+      '我明天上午去学校。',
+    ],
+    formula: '明天上午 + S + 去 + 学校',
+    pattern: 'Thời gian + S + 去 + nơi',
+    explainVi: 'Hai lớp thời gian đứng trước 去.',
+  },
+  {
+    id: 'reorder-wanshang-xiang-hecha',
+    vi: 'Buổi tối tôi muốn uống trà.',
+    answers: ['晚上我想喝茶', '我晚上想喝茶', '晚上我想喝茶。', '我晚上想喝茶。'],
+    formula: '晚上 + S + 想 + 喝 + 茶',
+    pattern: 'Thời gian + S + 想 + V + O',
+    explainVi: 'Thời gian trước 想 + động từ.',
+  },
+  {
+    id: 'reorder-jintian-kanshu',
+    vi: 'Hôm nay tôi xem sách.',
+    answers: ['今天我看书', '我今天看书', '今天我看书。', '我今天看书。'],
+    formula: '今天 + S + 看 + 书',
+    pattern: 'Thời gian + S + V + O',
+    explainVi: '今天 đứng trước hành động.',
+  },
+  {
+    id: 'reorder-zaoshang-he-kafei',
+    vi: 'Buổi sáng sớm tôi uống cà phê.',
+    answers: ['早上我喝咖啡', '我早上喝咖啡', '早上我喝咖啡。', '我早上喝咖啡。'],
+    formula: '早上 + S + 喝 + 咖啡',
+    pattern: 'Thời gian + S + V + O',
+    explainVi: 'Thời gian trước 喝咖啡.',
+  },
+
+  // 3) Làm gì với ai → ai trước, làm gì sau: S + 跟 + người + (一起) + V
+  {
+    id: 'reorder-gen-pengyou-he-kafei',
+    vi: 'Tôi đi uống cà phê với bạn.',
+    answers: [
+      '我跟朋友去喝咖啡',
+      '我和朋友去喝咖啡',
+      '我和朋友一起去喝咖啡',
+      '我跟朋友一起去喝咖啡',
+      '我跟朋友去喝咖啡。',
+      '我和朋友去喝咖啡。',
+      '我和朋友一起去喝咖啡。',
+      '我跟朋友一起去喝咖啡。',
+    ],
+    formula: 'S + 跟/和 + 朋友 + (一起) + 去 + 喝 + 咖啡',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: '“Với ai” đứng trước hành động; không để cuối câu như tiếng Việt.',
+  },
+  {
+    id: 'reorder-gen-ma-qu-shangdian',
+    vi: 'Cô ấy đi cửa hàng với mẹ.',
+    answers: [
+      '她跟妈去商店',
+      '她和妈去商店',
+      '她和妈一起去商店',
+      '她跟妈一起去商店',
+      '她跟妈去商店。',
+      '她和妈去商店。',
+      '她和妈一起去商店。',
+      '她跟妈一起去商店。',
+    ],
+    formula: 'S + 跟/和 + 妈 + (一起) + 去 + 商店',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: '跟 + người rồi mới 去.',
+  },
+  {
+    id: 'reorder-gen-tongxue-chifan',
+    vi: 'Tôi ăn cơm với bạn học.',
+    answers: [
+      '我跟同学吃饭',
+      '我和同学吃饭',
+      '我和同学一起吃饭',
+      '我跟同学一起吃饭',
+      '我跟同学吃米饭',
+      '我和同学吃米饭',
+      '我跟同学吃饭。',
+      '我和同学吃饭。',
+      '我和同学一起吃饭。',
+      '我跟同学一起吃饭。',
+      '我跟同学吃米饭。',
+      '我和同学吃米饭。',
+    ],
+    formula: 'S + 跟/和 + 同学 + (一起) + 吃饭',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: 'Người đi cùng trước động từ ăn.',
+  },
+  {
+    id: 'reorder-gen-pengyou-kan-dianying',
+    vi: 'Anh ấy xem phim với bạn.',
+    answers: [
+      '他跟朋友看电影',
+      '他和朋友看电影',
+      '他和朋友一起看电影',
+      '他跟朋友一起看电影',
+      '他跟朋友看电影。',
+      '他和朋友看电影。',
+      '他和朋友一起看电影。',
+      '他跟朋友一起看电影。',
+    ],
+    formula: 'S + 跟/和 + 朋友 + (一起) + 看 + 电影',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: '跟朋友 trước 看电影.',
+  },
+  {
+    id: 'reorder-xiang-gen-pengyou-qu-xuexiao',
+    vi: 'Tôi muốn đi trường với bạn.',
+    answers: [
+      '我想跟朋友去学校',
+      '我想和朋友去学校',
+      '我想和朋友一起去学校',
+      '我想跟朋友一起去学校',
+      '我想跟朋友去学校。',
+      '我想和朋友去学校。',
+      '我想和朋友一起去学校。',
+      '我想跟朋友一起去学校。',
+    ],
+    formula: 'S + 想 + 跟/和 + 朋友 + (一起) + 去 + 学校',
+    pattern: 'S + 想 + 跟/和 + người + (一起) + V',
+    explainVi: '想 rồi 跟 + người, sau đó mới 去.',
+  },
+  {
+    id: 'reorder-gen-laoshi-hecha',
+    vi: 'Các bạn uống trà với giáo viên.',
+    answers: [
+      '你们跟老师喝茶',
+      '你们和老师喝茶',
+      '你们和老师一起喝茶',
+      '你们跟老师一起喝茶',
+      '你们跟老师喝茶。',
+      '你们和老师喝茶。',
+      '你们和老师一起喝茶。',
+      '你们跟老师一起喝茶。',
+    ],
+    formula: 'S + 跟/和 + 老师 + (一起) + 喝 + 茶',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: 'Với giáo viên đứng trước 喝茶.',
+  },
+  {
+    id: 'reorder-gen-erzi-qu-yiyuan',
+    vi: 'Cô ấy đi bệnh viện với con trai.',
+    answers: [
+      '她跟儿子去医院',
+      '她和儿子去医院',
+      '她和儿子一起去医院',
+      '她跟儿子一起去医院',
+      '她跟儿子去医院。',
+      '她和儿子去医院。',
+      '她和儿子一起去医院。',
+      '她跟儿子一起去医院。',
+    ],
+    formula: 'S + 跟/和 + 儿子 + (一起) + 去 + 医院',
+    pattern: 'S + 跟/和 + người + (一起) + V',
+    explainVi: 'Người đi cùng trước 去医院.',
+  },
+
+  // 4) Làm gì cho ai → cho ai trước: S + 给 + người + V + O
+  {
+    id: 'reorder-gei-laoshi-mai-cha',
+    vi: 'Tôi mua trà cho giáo viên.',
+    answers: ['我给老师买茶', '我给老师买茶。'],
+    formula: 'S + 给 + 老师 + 买 + 茶',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给 + người nhận đứng trước động từ 买; không để “cho…” cuối câu.',
+  },
+  {
+    id: 'reorder-gei-wo-mai-beizi',
+    vi: 'Cô ấy mua cái cốc cho tôi.',
+    answers: ['她给我买杯子', '她给我买杯子。'],
+    formula: 'S + 给 + 我 + 买 + 杯子',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给我 trước 买杯子.',
+  },
+  {
+    id: 'reorder-gei-pengyou-mai-shu',
+    vi: 'Tôi mua sách cho bạn.',
+    answers: ['我给朋友买书', '我给朋友买书。'],
+    formula: 'S + 给 + 朋友 + 买 + 书',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给朋友 rồi mới 买书.',
+  },
+  {
+    id: 'reorder-ma-gei-wo-zuo-wanfan',
+    vi: 'Mẹ làm cơm tối cho tôi.',
+    answers: ['妈给我做晚饭', '我妈给我做晚饭', '妈给我做晚饭。', '我妈给我做晚饭。'],
+    formula: '妈 + 给 + 我 + 做 + 晚饭',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给我 trước 做晚饭.',
+  },
+  {
+    id: 'reorder-gei-erzi-mai-shu',
+    vi: 'Anh ấy mua sách cho con trai.',
+    answers: ['他给儿子买书', '他给儿子买书。'],
+    formula: 'S + 给 + 儿子 + 买 + 书',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: 'Người nhận (给…) trước hành động mua.',
+  },
+  {
+    id: 'reorder-gei-ma-mai-cha',
+    vi: 'Tôi mua trà cho mẹ.',
+    answers: ['我给妈买茶', '我给妈买茶。'],
+    formula: 'S + 给 + 妈 + 买 + 茶',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给妈 đứng trước 买茶.',
+  },
+  {
+    id: 'reorder-gei-tongxue-mai-beizi',
+    vi: 'Cô ấy mua cái cốc cho bạn học.',
+    answers: ['她给同学买杯子', '她给同学买杯子。'],
+    formula: 'S + 给 + 同学 + 买 + 杯子',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '给同学 trước 买.',
+  },
+  {
+    id: 'reorder-gei-pengyou-mai-kafei',
+    vi: 'Anh ấy mua cà phê cho bạn.',
+    answers: ['他给朋友买咖啡', '他给朋友买咖啡。'],
+    formula: 'S + 给 + 朋友 + 买 + 咖啡',
+    pattern: 'S + 给 + người + V + O',
+    explainVi: '“Cho ai” trước, “mua gì” sau.',
+  },
+
+  // Chồng thời gian + địa điểm (1+2)
+  {
+    id: 'reorder-mingtian-zai-xuexiao-chi-wufan',
+    vi: 'Ngày mai tôi ăn cơm trưa ở trường.',
+    answers: [
+      '我明天在学校吃午饭',
+      '明天我在学校吃午饭',
+      '我明天在学校吃午饭。',
+      '明天我在学校吃午饭。',
+    ],
+    formula: 'S + 明天 + 在 + 学校 + 吃 + 午饭',
+    pattern: 'Thời gian + S + 在 + nơi + V + O',
+    explainVi: 'Thứ tự Trung: thời gian → địa điểm → động từ.',
+  },
+  {
+    id: 'reorder-jintian-wanshang-zai-jia-chifan',
+    vi: 'Tối nay tôi ăn cơm ở nhà.',
+    answers: [
+      '今天晚上我在家吃饭',
+      '我今天晚上在家吃饭',
+      '今天晚上我在家吃米饭',
+      '我今天晚上在家吃米饭',
+      '今天晚上我在家吃饭。',
+      '我今天晚上在家吃饭。',
+      '今天晚上我在家吃米饭。',
+      '我今天晚上在家吃米饭。',
+    ],
+    formula: '今天晚上 + S + 在 + 家 + 吃饭',
+    pattern: 'Thời gian + S + 在 + nơi + V + O',
+    explainVi: 'Khi nào + ở đâu rồi mới ăn.',
+  },
+  {
+    id: 'reorder-xiawu-gen-pengyou-kan-dianying',
+    vi: 'Chiều nay tôi đi xem phim với bạn.',
+    answers: [
+      '今天下午我跟朋友去看电影',
+      '今天下午我和朋友去看电影',
+      '我今天下午跟朋友去看电影',
+      '我今天下午和朋友去看电影',
+      '今天下午我和朋友一起去看电影',
+      '今天下午我跟朋友一起去看电影',
+      '今天下午我跟朋友去看电影。',
+      '今天下午我和朋友去看电影。',
+      '我今天下午跟朋友去看电影。',
+      '我今天下午和朋友去看电影。',
+      '今天下午我和朋友一起去看电影。',
+      '今天下午我跟朋友一起去看电影。',
+    ],
+    formula: '今天下午 + S + 跟/和 + 朋友 + (一起) + 去 + 看 + 电影',
+    pattern: 'Thời gian + S + 跟/和 + người + (一起) + V',
+    explainVi: 'Thời gian → với ai → hành động.',
   },
 ]
