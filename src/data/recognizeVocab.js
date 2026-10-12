@@ -139,4 +139,17 @@ export const RECOGNIZE_VOCAB = [
   { id: 'dianying', hanzi: '电影', pinyin: 'diànyǐng', meaningVi: 'phim' },
   { id: 'kafei', hanzi: '咖啡', pinyin: 'kāfēi', meaningVi: 'cà phê' },
   { id: 'fan', hanzi: '饭', pinyin: 'fàn', meaningVi: 'cơm, bữa ăn' },
+
+  // Thời gian / lịch trình / xem phim
+  { id: 'xianzai', hanzi: '现在', pinyin: 'xiànzài', meaningVi: 'bây giờ' },
+  { id: 'dian', hanzi: '点', pinyin: 'diǎn', meaningVi: 'giờ (đồng hồ); điểm' },
+  { id: 'fen', hanzi: '分', pinyin: 'fēn', meaningVi: 'phút; phần' },
+  { id: 'chifan', hanzi: '吃饭', pinyin: 'chī fàn', meaningVi: 'ăn cơm, ăn uống' },
+  { id: 'shihou', hanzi: '时候', pinyin: 'shíhou', meaningVi: 'lúc, khi' },
+  { id: 'hui', hanzi: '回', pinyin: 'huí', meaningVi: 'về, trở lại' },
+  { id: 'women', hanzi: '我们', pinyin: 'wǒmen', meaningVi: 'chúng tôi, chúng ta' },
+  { id: 'dianyingyuan', hanzi: '电影院', pinyin: 'diànyǐngyuàn', meaningVi: 'rạp chiếu phim' },
+  { id: 'dianyingpiao', hanzi: '电影票', pinyin: 'diànyǐngpiào', meaningVi: 'vé xem phim' },
+  { id: 'zhu-live', hanzi: '住', pinyin: 'zhù', meaningVi: 'ở, sống (tại)' },
+  { id: 'qian', hanzi: '前', pinyin: 'qián', meaningVi: 'trước' },
 ]
