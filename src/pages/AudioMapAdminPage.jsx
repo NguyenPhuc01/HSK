@@ -4,7 +4,7 @@ import { Page } from 'react-pdf'
 import Tesseract from 'tesseract.js'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
 import '../lib/pdfSetup'
-import { getBook, BOOK_LIST } from '../data/books'
+import { getBook, getPdfUrl, BOOK_LIST } from '../data/books'
 import {
   getTotalPages,
   getAllTrackLabelsFromManifest,
@@ -191,7 +191,7 @@ function AudioMapEditor() {
   const builtInCount = Object.keys(pageAudioMap).length
 
   return (
-    <PdfDocumentProvider key={bookId} pdfPath={book.pdfPath} loadingLabel={`Đang mở ${book.shortTitle}…`}>
+    <PdfDocumentProvider key={bookId} pdfPath={getPdfUrl(book)} loadingLabel={`Đang mở ${book.shortTitle}…`}>
     <div className="flex h-screen flex-col bg-slate-100">
       <header className="shrink-0 border-b border-slate-200 bg-white px-4 py-3">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
