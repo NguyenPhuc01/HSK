@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import PdfPane from '../components/PdfPane'
 import AudioSidebar from '../components/AudioSidebar'
@@ -8,11 +8,12 @@ import { useAudio } from '../context/AudioContext'
 import { PdfDocumentProvider } from '../context/PdfDocumentContext'
 import { getAudioSrc } from '../data/audioManifests'
 import { getAudioTracksForPage, getTotalPages } from '../data/bookAudio'
-import { getBook, isValidBookId } from '../data/books'
+import { getBook, getPdfUrl, isValidBookId } from '../data/books'
 import { saveReadingPage } from '../hooks/useReadingProgress'
 
 function ReaderLayout({ bookId, pageNum }) {
   const book = getBook(bookId)
+  const pdfUrl = getPdfUrl(book)
   const { stopTrack, selectTrack, activeTrack } = useAudio()
   const activeTrackRef = useRef(activeTrack)
   activeTrackRef.current = activeTrack
@@ -44,20 +45,18 @@ function ReaderLayout({ bookId, pageNum }) {
 
   const audioTracks = getAudioTracksForPage(bookId, pageNum)
 
-  const pdfView = useMemo(
-    () => (
-      <PdfDocumentProvider pdfPath={book.pdfPath} loadingLabel={`Đang mở ${book.shortTitle}…`}>
-        <PdfPane bookId={bookId} pageNum={pageNum} audioActive={Boolean(activeTrack)} />
-      </PdfDocumentProvider>
-    ),
-    [book.pdfPath, book.shortTitle, bookId, pageNum, activeTrack],
-  )
-
   return (
     <>
       <div className="flex h-full min-h-0 flex-col lg:flex-row">
         <div className="flex min-h-0 min-w-0 flex-1 flex-col lg:border-r lg:border-slate-200">
-          {pdfView}
+          {/* key=pdfUrl: chỉ remount khi đổi sách / version PDF — không reload khi lật trang */}
+          <PdfDocumentProvider
+            key={pdfUrl}
+            pdfPath={pdfUrl}
+            loadingLabel={`Đang mở ${book.shortTitle}…`}
+          >
+            <PdfPane bookId={bookId} pageNum={pageNum} audioActive={Boolean(activeTrack)} />
+          </PdfDocumentProvider>
         </div>
 
         <AudioSidebar bookId={bookId} pageNum={pageNum} />

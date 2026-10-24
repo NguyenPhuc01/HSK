@@ -44,16 +44,18 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /\.pdf$/i,
-            handler: 'NetworkFirst',
+            // PDF lớn: hiện cache ngay, nền tải lại khi online (cập nhật bản mới).
+            // URL có ?v= trong books.js — bump pdfVersion khi thay file để bỏ cache cũ.
+            urlPattern: ({ url }) => /\.pdf$/i.test(url.pathname),
+            handler: 'StaleWhileRevalidate',
             options: {
               cacheName: 'hsk1-pdf',
-              networkTimeoutSeconds: 15,
               expiration: {
-                maxEntries: 2,
+                maxEntries: 4,
                 maxAgeSeconds: 60 * 60 * 24 * 90,
               },
-              cacheableResponse: { statuses: [0, 200] },
+              // Chỉ cache bản đủ (200). Không cache 206 partial — tránh vỡ pdf.js.
+              cacheableResponse: { statuses: [200] },
             },
           },
           {
