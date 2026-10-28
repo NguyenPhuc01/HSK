@@ -67,7 +67,7 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-8d0d8005'], (function (workbox) { 'use strict';
+define(['./workbox-5ccb27be'], (function (workbox) { 'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -81,20 +81,21 @@ define(['./workbox-8d0d8005'], (function (workbox) { 'use strict';
     "revision": "3ca0b8505b4bec776b69afdba2768812"
   }, {
     "url": "index.html",
-    "revision": "0.qhj9g2r9vvo"
+    "revision": "0.7ip26unjvb"
   }], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
     allowlist: [/^\/$/]
   }));
-  workbox.registerRoute(/\.pdf$/i, new workbox.NetworkFirst({
+  workbox.registerRoute(({
+    url
+  }) => /\.pdf$/i.test(url.pathname), new workbox.StaleWhileRevalidate({
     "cacheName": "hsk1-pdf",
-    "networkTimeoutSeconds": 15,
     plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 2,
+      maxEntries: 4,
       maxAgeSeconds: 7776000
     }), new workbox.CacheableResponsePlugin({
-      statuses: [0, 200]
+      statuses: [200]
     })]
   }), 'GET');
   workbox.registerRoute(/\/audio\/.+\.mp3$/i, new workbox.CacheFirst({
