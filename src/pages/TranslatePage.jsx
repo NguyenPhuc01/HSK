@@ -1,14 +1,20 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAudio } from '../context/AudioContext'
+import LessonFilter from '../components/LessonFilter'
+import { filterSentencesByLesson, HSK1_LESSONS } from '../data/hsk1Lessons'
+import { LESSON_TRANSLATE_SENTENCES } from '../data/lessonTranslateSentences'
 import { TRANSLATE_SENTENCES } from '../data/translateSentences'
 import { checkTranslation, shuffleList, annotateFormula } from '../lib/translateCheck'
 
 const AUTO_NEXT_MS = 1500
 
+const ALL_SENTENCES = [...TRANSLATE_SENTENCES, ...LESSON_TRANSLATE_SENTENCES]
+
 export default function TranslatePage() {
   const { stopTrack } = useAudio()
   const inputRef = useRef(null)
   const [phase, setPhase] = useState('idle')
+  const [lessonFilter, setLessonFilter] = useState('all')
   const [queue, setQueue] = useState([])
   const [index, setIndex] = useState(0)
   const [input, setInput] = useState('')
@@ -19,6 +25,19 @@ export default function TranslatePage() {
   useEffect(() => {
     stopTrack()
   }, [stopTrack])
+
+  const pool = useMemo(
+    () => filterSentencesByLesson(ALL_SENTENCES, lessonFilter),
+    [lessonFilter],
+  )
+
+  const lessonCounts = useMemo(() => {
+    const byLesson = {}
+    for (const lesson of HSK1_LESSONS) {
+      byLesson[lesson.id] = ALL_SENTENCES.filter((s) => s.lesson === lesson.id).length
+    }
+    return { all: ALL_SENTENCES.length, byLesson }
+  }, [])
 
   const entry = queue[index]
 
@@ -43,8 +62,8 @@ export default function TranslatePage() {
   }, [answered, index, queue])
 
   function startSession() {
-    if (TRANSLATE_SENTENCES.length === 0) return
-    const nextQueue = shuffleList(TRANSLATE_SENTENCES)
+    if (pool.length === 0) return
+    const nextQueue = shuffleList(pool)
     setQueue(nextQueue)
     setIndex(0)
     setInput('')
@@ -78,7 +97,7 @@ export default function TranslatePage() {
     })
   }
 
-  if (TRANSLATE_SENTENCES.length === 0) {
+  if (ALL_SENTENCES.length === 0) {
     return (
       <div className="h-full overflow-y-auto">
         <div className="mx-auto max-w-lg p-4 md:p-8">
@@ -97,16 +116,22 @@ export default function TranslatePage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900">Luyện dịch</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Đọc câu tiếng Việt, gõ bản tiếng Trung. Sai mới hiện công thức để nhớ.
+                Đọc câu tiếng Việt, gõ tiếng Trung. Nhiều cách viết tự nhiên vẫn được tính đúng;
+                sai mới hiện công thức theo bài cô.
               </p>
             </div>
-            <button
-              type="button"
-              onClick={startSession}
-              className="inline-flex w-full items-center justify-center rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700"
-            >
-              Bắt đầu
-            </button>
+            <LessonFilter value={lessonFilter} onChange={setLessonFilter} counts={lessonCounts} />
+            {pool.length === 0 ? (
+              <p className="text-sm text-amber-700">Bài này chưa có câu luyện dịch.</p>
+            ) : (
+              <button
+                type="button"
+                onClick={startSession}
+                className="inline-flex w-full items-center justify-center rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700"
+              >
+                Bắt đầu · {pool.length} câu
+              </button>
+            )}
           </>
         )}
 

@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useAudio } from '../context/AudioContext'
+import LessonFilter from '../components/LessonFilter'
+import { filterVocabByLesson, HSK1_LESSONS } from '../data/hsk1Lessons'
 import { RECOGNIZE_VOCAB } from '../data/recognizeVocab'
 import {
   buildSessionQueue,
@@ -14,6 +16,7 @@ const AUTO_NEXT_MS = 1500
 export default function RecognizePage() {
   const { stopTrack } = useAudio()
   const [phase, setPhase] = useState('idle')
+  const [lessonFilter, setLessonFilter] = useState('all')
   const [queue, setQueue] = useState([])
   const [index, setIndex] = useState(0)
   const [options, setOptions] = useState([])
@@ -24,6 +27,19 @@ export default function RecognizePage() {
   useEffect(() => {
     stopTrack()
   }, [stopTrack])
+
+  const pool = useMemo(
+    () => filterVocabByLesson(RECOGNIZE_VOCAB, lessonFilter),
+    [lessonFilter],
+  )
+
+  const lessonCounts = useMemo(() => {
+    const byLesson = {}
+    for (const lesson of HSK1_LESSONS) {
+      byLesson[lesson.id] = filterVocabByLesson(RECOGNIZE_VOCAB, lesson.id).length
+    }
+    return { all: RECOGNIZE_VOCAB.length, byLesson }
+  }, [])
 
   const entry = queue[index]
 
@@ -47,12 +63,8 @@ export default function RecognizePage() {
   }, [answered, index, queue])
 
   function startSession() {
-    if (RECOGNIZE_VOCAB.length === 0) return
-    const nextQueue = buildSessionQueue(
-      RECOGNIZE_VOCAB,
-      loadProgress(),
-      RECOGNIZE_VOCAB.length,
-    )
+    if (pool.length === 0) return
+    const nextQueue = buildSessionQueue(pool, loadProgress(), pool.length)
     const first = nextQueue[0]
     setQueue(nextQueue)
     setIndex(0)
@@ -98,17 +110,22 @@ export default function RecognizePage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900">Nhận diện chữ</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Nhìn chữ Hán, chọn đúng pinyin / nghĩa. Mỗi lần luyện hết {RECOGNIZE_VOCAB.length}{' '}
-                từ (chữ hay sai ưu tiên hơn).
+                Nhìn chữ Hán, chọn đúng pinyin / nghĩa. Chọn bài giáo trình hoặc luyện tất cả (chữ
+                hay sai ưu tiên hơn).
               </p>
             </div>
-            <button
-              type="button"
-              onClick={startSession}
-              className="inline-flex w-full items-center justify-center rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700"
-            >
-              Bắt đầu
-            </button>
+            <LessonFilter value={lessonFilter} onChange={setLessonFilter} counts={lessonCounts} />
+            {pool.length === 0 ? (
+              <p className="text-sm text-amber-700">Bài này chưa có từ trong bank.</p>
+            ) : (
+              <button
+                type="button"
+                onClick={startSession}
+                className="inline-flex w-full items-center justify-center rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700"
+              >
+                Bắt đầu · {pool.length} từ
+              </button>
+            )}
           </>
         )}
 
