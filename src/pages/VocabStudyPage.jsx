@@ -173,7 +173,7 @@ export default function VocabStudyPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto flex min-h-full max-w-2xl flex-col p-4 pb-10 md:p-8">
+      <div className="mx-auto flex min-h-full max-w-5xl flex-col p-4 pb-10 md:p-8 lg:max-w-6xl">
         <div className="mb-4 flex items-center justify-between gap-3">
           <Link to={listHref} className="text-sm font-medium text-teal-700 hover:text-teal-800">
             ← Danh sách

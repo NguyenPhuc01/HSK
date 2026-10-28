@@ -8,7 +8,10 @@ export default function LessonFilter({ value, onChange, counts }) {
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-800 outline-none ring-teal-500 focus:border-teal-400 focus:ring-2"
+        className="w-full appearance-none rounded-xl border border-slate-200 bg-white bg-[length:1rem] bg-[right_0.875rem_center] bg-no-repeat py-2.5 pl-3.5 pr-11 text-sm text-slate-800 outline-none ring-teal-500 focus:border-teal-400 focus:ring-2"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%6494a3'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E")`,
+        }}
       >
         <option value="all">
           Tất cả{counts?.all != null ? ` (${counts.all})` : ''}

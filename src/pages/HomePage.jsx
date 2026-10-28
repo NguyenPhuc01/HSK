@@ -11,18 +11,18 @@ export default function HomePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-2xl space-y-6 p-4 md:p-8">
+      <div className="mx-auto max-w-5xl space-y-6 p-4 md:p-8 lg:max-w-6xl">
         <section className="overflow-hidden rounded-2xl bg-gradient-to-br from-teal-600 via-teal-700 to-emerald-800 p-6 text-white shadow-xl md:p-10">
           <p className="mb-2 text-xs font-semibold uppercase tracking-widest text-teal-200">
             HSK Standard Course 1
           </p>
           <h2 className="text-2xl font-bold md:text-3xl">Giáo trình + Học từ</h2>
-          <p className="mt-3 text-sm leading-relaxed text-teal-100 md:text-base">
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-teal-100 md:text-base">
             Đọc PDF kèm audio, hoặc ôn từ HSK 1–2 và tên quốc gia với chữ Hán, nét viết và pinyin.
           </p>
         </section>
 
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {BOOK_LIST.map((book) => {
             const savedPage = loadReadingPage(book.id)
             const totalPages = getTotalPages(book.id)

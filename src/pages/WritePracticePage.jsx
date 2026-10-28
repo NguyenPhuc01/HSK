@@ -215,7 +215,7 @@ export default function WritePracticePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto flex max-w-lg flex-col items-center px-4 py-6 pb-12 md:py-10">
+      <div className="mx-auto flex w-full max-w-3xl flex-col items-center px-4 py-6 pb-12 md:max-w-4xl md:py-10 lg:max-w-5xl">
         <header className="mb-5 w-full text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-teal-700">Luyện viết</p>
           <h2 className="mt-1 text-2xl font-bold text-slate-900">Viết chữ Hán</h2>

@@ -100,7 +100,7 @@ export default function TranslatePage() {
   if (ALL_SENTENCES.length === 0) {
     return (
       <div className="h-full overflow-y-auto">
-        <div className="mx-auto max-w-lg p-4 md:p-8">
+        <div className="mx-auto max-w-5xl p-4 md:p-8 lg:max-w-6xl">
           <h2 className="text-xl font-bold text-slate-900">Luyện dịch</h2>
           <p className="mt-3 text-sm text-slate-600">Chưa có câu luyện — sẽ bổ sung sau.</p>
         </div>
@@ -110,7 +110,7 @@ export default function TranslatePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-lg space-y-6 p-4 md:p-8">
+      <div className="mx-auto max-w-5xl space-y-6 p-4 md:p-8 lg:max-w-6xl">
         {phase === 'idle' && (
           <>
             <div>

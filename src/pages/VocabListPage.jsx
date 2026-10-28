@@ -123,7 +123,7 @@ export default function VocabListPage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-2xl p-4 pb-8 md:p-8">
+      <div className="mx-auto max-w-5xl p-4 pb-8 md:p-8 lg:max-w-6xl">
         <header className="mb-5">
           <p className="text-xs font-semibold uppercase tracking-widest text-teal-700">HSK · Thực tế</p>
           <h2 className="mt-1 text-2xl font-bold text-slate-900">Học từ</h2>

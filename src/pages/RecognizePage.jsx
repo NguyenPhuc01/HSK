@@ -94,7 +94,7 @@ export default function RecognizePage() {
   if (RECOGNIZE_VOCAB.length === 0) {
     return (
       <div className="h-full overflow-y-auto">
-        <div className="mx-auto max-w-lg p-4 md:p-8">
+        <div className="mx-auto max-w-5xl p-4 md:p-8 lg:max-w-6xl">
           <h2 className="text-xl font-bold text-slate-900">Nhận diện chữ</h2>
           <p className="mt-3 text-sm text-slate-600">Chưa có từ vựng — sẽ bổ sung sau.</p>
         </div>
@@ -104,7 +104,7 @@ export default function RecognizePage() {
 
   return (
     <div className="h-full overflow-y-auto">
-      <div className="mx-auto max-w-lg space-y-6 p-4 md:p-8">
+      <div className="mx-auto max-w-5xl space-y-6 p-4 md:p-8 lg:max-w-6xl">
         {phase === 'idle' && (
           <>
             <div>
