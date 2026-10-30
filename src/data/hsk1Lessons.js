@@ -121,7 +121,7 @@ export function filterVocabByLesson(vocab, lessonId) {
 }
 
 export function filterSentencesByLesson(sentences, lessonId) {
-  if (lessonId == null || lessonId === 'all') return sentences
+  if (lessonId == null || lessonId === 'all') return sentences.slice()
   const id = Number(lessonId)
   return sentences.filter((s) => s.lesson === id)
 }

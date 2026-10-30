@@ -88,11 +88,23 @@ export function annotateFormula(formula) {
   })
 }
 
-export function shuffleList(list, rng = Math.random) {
-  const arr = [...list]
+function randomIndex(maxExclusive) {
+  if (typeof crypto !== 'undefined' && crypto.getRandomValues) {
+    const buf = new Uint32Array(1)
+    crypto.getRandomValues(buf)
+    return buf[0] % maxExclusive
+  }
+  return Math.floor(Math.random() * maxExclusive)
+}
+
+/** Xáo trộn mảng (Fisher–Yates), luôn trả về bản copy mới. */
+export function shuffleList(list) {
+  const arr = Array.isArray(list) ? list.slice() : []
   for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(rng() * (i + 1))
-    ;[arr[i], arr[j]] = [arr[j], arr[i]]
+    const j = randomIndex(i + 1)
+    const tmp = arr[i]
+    arr[i] = arr[j]
+    arr[j] = tmp
   }
   return arr
 }

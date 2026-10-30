@@ -63,6 +63,7 @@ export default function TranslatePage() {
 
   function startSession() {
     if (pool.length === 0) return
+    // Mỗi lần bắt đầu / luyện lại đều xáo lại toàn bộ câu trong bộ lọc.
     const nextQueue = shuffleList(pool)
     setQueue(nextQueue)
     setIndex(0)
@@ -116,8 +117,8 @@ export default function TranslatePage() {
             <div>
               <h2 className="text-xl font-bold text-slate-900">Luyện dịch</h2>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                Đọc câu tiếng Việt, gõ tiếng Trung. Nhiều cách viết tự nhiên vẫn được tính đúng;
-                sai mới hiện công thức theo bài cô.
+                Đọc câu tiếng Việt, gõ tiếng Trung. Mỗi lần bắt đầu sẽ xáo thứ tự câu. Nhiều cách
+                viết tự nhiên vẫn được tính đúng; sai mới hiện công thức theo bài cô.
               </p>
             </div>
             <LessonFilter value={lessonFilter} onChange={setLessonFilter} counts={lessonCounts} />
@@ -239,10 +240,10 @@ export default function TranslatePage() {
 
             <button
               type="button"
-              onClick={() => setPhase('idle')}
+              onClick={startSession}
               className="inline-flex w-full items-center justify-center rounded-full bg-teal-600 px-4 py-3 text-sm font-semibold text-white hover:bg-teal-700"
             >
-              Luyện lại
+              Luyện lại (xáo câu mới)
             </button>
           </>
         )}
